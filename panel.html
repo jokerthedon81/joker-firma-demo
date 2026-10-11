@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Panel firmy — JOKERAl Firma (demo)</title>
+<meta name="theme-color" content="#050507">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="common.css">
+<style>
+.ph{display:flex;justify-content:space-between;align-items:flex-end;gap:14px;flex-wrap:wrap;margin:6px 0 18px}
+.ph h1{font-size:clamp(24px,4vw,34px);color:#fff;letter-spacing:-.02em}
+.live{display:inline-flex;align-items:center;gap:7px;font-size:13px;color:var(--green)}
+.live i{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 10px var(--green);animation:bl 1.4s infinite}
+@keyframes bl{50%{opacity:.3}}
+.kpis{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:18px}
+.kpi{padding:16px;border-radius:18px;background:linear-gradient(180deg,#14111e,#0b0a10);border:1px solid var(--line)}
+.kpi .v{font-size:26px;font-weight:800;color:#fff;letter-spacing:-.02em}
+.kpi .k{font-size:12.5px;color:var(--muted)}
+.kpi.pur{border-color:#4b3a7a;box-shadow:0 0 30px rgba(139,92,246,.15)}
+.grid{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,.7fr);gap:16px}
+.card h2{font-size:16px;color:#fff;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+.tbl{width:100%;border-collapse:collapse;font-size:13.5px}
+.tbl th{text-align:left;font-weight:600;color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.05em;padding:6px 8px;border-bottom:1px solid var(--line)}
+.tbl td{padding:9px 8px;border-bottom:1px solid #1a1724;vertical-align:middle}
+.tbl input{width:68px;padding:6px 7px;border-radius:9px}
+.tbl input[type=date]{width:132px}
+.tbl td,.tbl th{padding-left:6px;padding-right:6px}
+.tblw{overflow-x:auto}
+.av{font-weight:800;color:var(--purple2)}
+.empty{color:var(--muted);font-size:13.5px;padding:8px 0}
+.log{max-height:520px;overflow-y:auto}
+.log .e{font-size:13px;padding:8px 0;border-bottom:1px solid #1a1724;color:var(--silver);animation:pop .3s}
+.log .e small{display:block;color:var(--muted);font-size:11.5px}
+.mt{margin-top:16px}
+.flash{animation:fl 1.2s}
+@keyframes fl{20%{background:rgba(139,92,246,.18)}}
+.cdt{font:700 13px ui-monospace,Menlo,monospace;color:var(--purple2)}
+@media (max-width:980px){.kpis{grid-template-columns:repeat(2,1fr)}.grid{grid-template-columns:minmax(0,1fr)}}
+</style>
+</head>
+<body>
+<div class="demo-banner">Panel firmy · demo · dane zapisane tylko w tej przeglądarce</div>
+<div class="wrap" id="navw"></div>
+<div class="wrap">
+  <div class="ph"><div><h1>Panel magazynu</h1><span class="live"><i></i> na żywo — zmiany z innych kart pojawiają się od razu</span></div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap"><a class="btn ghost sm" href="zamowienie.html" target="_blank">＋ Nowe zamówienie (klient)</a><button class="btn red sm" id="reset">↺ Resetuj demo</button></div></div>
+  <div class="kpis" id="kpis"></div>
+  <div class="card" id="accWrap" style="margin-bottom:16px;border-color:#a16207"><h2>⚠️ Do akceptacji człowieka <span class="tag warn" id="accN">0</span></h2><div class="tblw"><table class="tbl" id="acc"></table></div></div>
+  <div class="grid">
+    <div>
+      <div class="card"><h2>Stany magazynowe <span class="muted" style="font-size:12px;font-weight:400">edytuj i zatwierdź Enterem / poza polem</span></h2><div class="tblw"><table class="tbl" id="stock"></table></div></div>
+      <div class="card mt"><h2>Aktywne rezerwacje <span class="tag pur" id="resN">0</span></h2><div class="tblw"><table class="tbl" id="res"></table></div></div>
+      <div class="card mt"><h2>Zamówienia</h2><div class="tblw"><table class="tbl" id="ord"></table></div></div>
+      <div class="card mt"><h2>Płatności <span class="tag test">TEST</span></h2><div class="tblw"><table class="tbl" id="pay"></table></div></div>
+      <div class="card mt"><h2>Wydania z Paczkomatu</h2><div class="tblw"><table class="tbl" id="pick"></table></div></div>
+    </div>
+    <div><div class="card"><h2>Dziennik zdarzeń</h2><div class="log" id="log"></div></div></div>
+  </div>
+</div>
+<div class="wrap" id="footw"></div>
+<script src="firma-engine.js"></script>
+<script src="shared.js"></script>
+<script>
+(() => {
+const F = window.JokerFirma, $ = JK.$;
+$('navw').innerHTML = JK.nav('panel.html'); $('footw').innerHTML = JK.foot();
+const store = F.createStore(window.localStorage);
+const t = ms => new Date(ms).toLocaleString('pl-PL', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' });
+const ST = { 'rezerwacja': '<span class="tag pur">rezerwacja</span>', 'akceptacja': '<span class="tag warn">do akceptacji</span>', 'opłacone': '<span class="tag ok">opłacone</span>', 'wydane': '<span class="tag">wydane ✓</span>', 'wygasła': '<span class="tag bad">wygasła</span>', 'odrzucone': '<span class="tag bad">anulowane</span>' };
+const cd = o => { const s = Math.max(0, Math.ceil((o.expiresAt - Date.now()) / 1000)); return String(Math.floor(s / 60)).padStart(2, '0') + ':' + String(s % 60).padStart(2, '0'); };
+let editing = false, lastLog = '';
+function render() {
+  store.sweep();
+  const d = store.get(), today = F.iso(new Date());
+  const paid = d.payments.reduce((a, p) => a + p.amount, 0);
+  const act = d.orders.filter(o => o.status === 'rezerwacja'), acc = d.orders.filter(o => o.status === 'akceptacja');
+  $('kpis').innerHTML = [
+    ['Przychód (TEST)', F.zl(paid), 'pur'], ['Zamówienia', d.orders.length], ['Aktywne rezerwacje', act.length], ['Opłacone, do odbioru', d.orders.filter(o => o.status === 'opłacone').length], ['Wydane', d.pickups.length]
+  ].map(([k, v, c]) => `<div class="kpi ${c || ''}"><div class="v">${v}</div><div class="k">${k}</div></div>`).join('');
+  $('accWrap').classList.toggle('hidden', !acc.length); $('accN').textContent = acc.length;
+  $('acc').innerHTML = '<tr><th>Nr</th><th>Towar</th><th>Termin</th><th>Wartość</th><th>Klient</th><th></th></tr>' + acc.map(o => `<tr><td><b>${o.no}</b></td><td>${o.qty} × ${o.name}</td><td>${F.short(o.date)} ${o.time}</td><td>${F.zl(o.total)}</td><td>${JK.esc(o.customer)}</td><td style="white-space:nowrap"><button class="btn green sm" data-acc="${o.id}">✓ Akceptuj</button> <button class="btn ghost sm" data-rej="${o.id}">Odrzuć</button></td></tr>`).join('');
+  if (!editing) $('stock').innerHTML = '<tr><th>Produkt</th><th>Stan</th><th>Zarezerw.</th><th>Dostępne dziś</th><th>Cena zł</th><th>Dostawa</th><th>Szt.</th></tr>' + d.products.map(p => `<tr data-p="${p.id}"><td><b>${p.name}</b><div class="muted" style="font-size:12px">${p.size}</div></td><td><input type="number" min="0" data-f="stock" value="${p.stock}" aria-label="Stan ${p.name}"></td><td>${store.held(p.id)}</td><td class="av">${store.available(p.id, today)}</td><td><input type="number" min="0" step="0.5" data-f="price" value="${p.price}"></td><td><input type="date" data-f="deliveryDate" value="${p.deliveryDate || ''}"></td><td><input type="number" min="0" data-f="deliveryQty" value="${p.deliveryQty}"></td></tr>`).join('');
+  $('resN').textContent = act.length;
+  $('res').innerHTML = act.length ? '<tr><th>Nr</th><th>Towar</th><th>Termin</th><th>Wygasa za</th><th></th></tr>' + act.map(o => `<tr><td><b>${o.no}</b></td><td>${o.qty} × ${o.name}</td><td>${F.short(o.date)} ${o.time}</td><td class="cdt">${cd(o)}</td><td style="white-space:nowrap"><button class="btn ghost sm" data-exp="${o.id}" title="Demo: zakończ czas rezerwacji">⏩ Wygaś</button> <button class="btn ghost sm" data-rej="${o.id}">Anuluj</button></td></tr>`).join('') : '<tr><td class="empty">Brak aktywnych rezerwacji.</td></tr>';
+  $('ord').innerHTML = d.orders.length ? '<tr><th>Nr</th><th>Towar</th><th>Termin</th><th>Kwota</th><th>Status</th><th>Kod</th></tr>' + d.orders.slice(0, 40).map(o => `<tr><td><b>${o.no}</b>${o.flagged ? ' <span title="duże zamówienie">⚠️</span>' : ''}</td><td>${o.qty} × ${o.name}</td><td>${F.short(o.date)} ${o.time}</td><td>${F.zl(o.total)}</td><td>${ST[o.status] || o.status}</td><td>${o.code ? o.code + ' · skr. ' + o.locker : '—'}</td></tr>`).join('') : '<tr><td class="empty">Brak zamówień. Otwórz stronę klienta i zamów palety.</td></tr>';
+  $('pay').innerHTML = d.payments.length ? '<tr><th>ID</th><th>Zamówienie</th><th>Kwota</th><th>Metoda</th><th>Czas</th></tr>' + d.payments.map(p => `<tr><td>${p.id}</td><td>${p.order}</td><td><b>${F.zl(p.amount)}</b></td><td>${p.method}</td><td>${t(p.at)}</td></tr>`).join('') : '<tr><td class="empty">Brak płatności.</td></tr>';
+  $('pick').innerHTML = d.pickups.length ? '<tr><th>Zamówienie</th><th>Towar</th><th>Skrytka</th><th>Czas</th></tr>' + d.pickups.map(p => `<tr><td>${p.order}</td><td>${p.qty} × ${p.name}</td><td>${p.locker}</td><td>${t(p.at)}</td></tr>`).join('') : '<tr><td class="empty">Nic jeszcze nie wydano.</td></tr>';
+  const nl = d.log.length + ':' + (d.log[0] ? d.log[0].at : 0);
+  if (nl !== lastLog) $('log').innerHTML = d.log.slice(0, 80).map(e => `<div class="e">${JK.brand(e.text)}<small>${t(e.at)}</small></div>`).join('');
+  lastLog = nl;
+}
+document.addEventListener('click', e => {
+  const b = e.target.closest('button'); if (!b) return;
+  if (b.dataset.acc) { store.accept(b.dataset.acc); JK.toast('Zaakceptowano — klient widzi płatność.'); render(); }
+  if (b.dataset.rej) { store.reject(b.dataset.rej); JK.toast('Anulowano — towar wrócił na stan.'); render(); }
+  if (b.dataset.exp) { store.expireNow(b.dataset.exp); render(); }
+});
+$('stock').addEventListener('focusin', () => editing = true);
+$('stock').addEventListener('focusout', () => setTimeout(() => { if (!$('stock').contains(document.activeElement)) { editing = false; render(); } }, 50));
+$('stock').addEventListener('change', e => {
+  const i = e.target; if (!i.dataset.f) return; const id = i.closest('tr').dataset.p; const f = i.dataset.f;
+  const v = f === 'deliveryDate' ? i.value : Math.max(0, +i.value || 0);
+  store.updateProduct(id, { [f]: v }); JK.toast('Zapisano — strona klienta widzi nowy stan.');
+  const tr = i.closest('tr'); tr.classList.add('flash'); const av = tr.querySelector('.av'); if (av) av.textContent = store.available(id, F.iso(new Date()));
+});
+$('stock').addEventListener('keydown', e => { if (e.key === 'Enter') e.target.blur(); });
+$('reset').onclick = () => { if (confirm('Zresetować demo? Zamówienia, płatności i stany wrócą do wartości startowych.')) { store.reset(); editing = false; render(); JK.toast('Demo zresetowane.'); } };
+window.addEventListener('storage', e => { if (e.key === F.KEY) render(); });
+setInterval(() => { if (!editing) render(); else document.querySelectorAll('.cdt').forEach(() => { }); }, 1000);
+render();
+})();
+</script>
+</body>
+</html>

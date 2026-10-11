@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Zamów palety — JOKERAl Firma (demo)</title>
+<meta name="theme-color" content="#050507">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="common.css">
+<style>
+.layout{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,.75fr);gap:24px;align-items:start;padding:6px 0 30px}
+.phone{border-radius:28px;border:1px solid #2b2540;background:linear-gradient(180deg,#0f0b1a,#07060b);box-shadow:0 30px 90px rgba(0,0,0,.65),0 0 70px rgba(139,92,246,.18);height:min(78vh,760px);display:flex;flex-direction:column;overflow:hidden}
+.phead{display:flex;align-items:center;gap:12px;padding:14px 16px;border-bottom:1px solid var(--line);background:rgba(10,8,16,.85)}
+.av{width:44px;height:44px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff,#aeb2bd 40%,#4b4e5a);box-shadow:0 0 0 3px #1d1033,0 0 18px rgba(192,132,252,.45);flex:none;position:relative}
+.speaking .av::after{content:"";position:absolute;inset:-7px;border-radius:50%;border:2px solid var(--purple2);animation:ring 1s infinite}
+@keyframes ring{from{opacity:1;transform:scale(.9)}to{opacity:0;transform:scale(1.35)}}
+.phead h2{font-size:16px;font-weight:700;color:#fff}
+.phead .st{font-size:12.5px;color:var(--green)}
+.phead .tools{margin-left:auto;display:flex;gap:6px}
+.icon{width:38px;height:38px;border-radius:12px;border:1px solid var(--line);background:#0c0a12;color:var(--silver);cursor:pointer;font-size:16px}
+.icon.on{border-color:var(--purple);background:rgba(139,92,246,.18)}
+/* karty w czacie */
+.oc{flex:none;align-self:stretch;border-radius:20px;padding:16px;border:1px solid #3a2d63;background:linear-gradient(160deg,#171127,#0b0912);animation:pop .3s ease-out;position:relative;overflow:hidden}
+.oc h3{font-size:15px;color:#fff;margin-bottom:6px;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.oc .row{display:flex;justify-content:space-between;gap:10px;font-size:14px;padding:3px 0;color:var(--muted)}
+.oc .row b{color:var(--silver);font-weight:600;text-align:right}
+.oc .tot{font-size:22px;font-weight:800;color:#fff}
+.cd{display:flex;align-items:center;gap:12px;margin:10px 0}
+.cd .t{font:800 26px ui-monospace,Menlo,monospace;color:var(--purple2);min-width:88px}
+.cd .bar{flex:1;height:8px;border-radius:9px;background:#1e1a2b;overflow:hidden}
+.cd .bar i{display:block;height:100%;background:linear-gradient(90deg,var(--purple2),var(--purple));transition:width 1s linear}
+.cd.low .t{color:#f87171}.cd.low .bar i{background:linear-gradient(90deg,#f87171,#b91c1c)}
+.paytabs{display:flex;gap:6px;margin:8px 0}
+.paytabs button{flex:1;padding:9px;border-radius:10px;border:1px solid var(--line);background:#0b0a10;color:var(--muted);font:600 13px Inter,sans-serif;cursor:pointer}
+.paytabs button.on{color:#fff;border-color:var(--purple);background:rgba(139,92,246,.18)}
+.blik{display:flex;gap:8px;align-items:center}
+.blik input{flex:1;font:700 22px ui-monospace,Menlo,monospace;letter-spacing:.35em;text-align:center;min-width:0;padding:9px}
+.testnote{font-size:12px;color:#fde68a;background:rgba(251,191,36,.08);border:1px dashed rgba(251,191,36,.45);border-radius:10px;padding:7px 10px;margin:8px 0}
+.acts{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.linkbtn{background:none;border:0;color:var(--muted);font-size:12.5px;cursor:pointer;text-decoration:underline}
+.proc{display:flex;align-items:center;gap:10px;font-size:14px;color:#fff;padding:10px 0}
+.spin{width:22px;height:22px;border-radius:50%;border:3px solid #3b2d63;border-top-color:var(--purple2);animation:sp .8s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+.conf{text-align:center}
+.conf .ok{width:56px;height:56px;border-radius:50%;margin:0 auto 8px;background:linear-gradient(135deg,#6ee7b7,#10b981);display:grid;place-items:center;font-size:28px;color:#04140d;box-shadow:0 0 40px rgba(16,185,129,.5);animation:okp .6s cubic-bezier(.2,1.6,.4,1)}
+@keyframes okp{from{transform:scale(0)}to{transform:scale(1)}}
+.qrbox{background:#fff;border-radius:18px;padding:12px;width:220px;max-width:100%;margin:12px auto;box-shadow:0 0 0 4px #2a1a4a,0 0 50px rgba(192,132,252,.55)}
+.qrbox img,.qrbox svg{display:block;width:100%;height:auto}
+.code{font:800 30px ui-monospace,Menlo,monospace;letter-spacing:.18em;color:#fff}
+.side .card{margin-bottom:16px}
+.side h3{font-size:15px;color:#fff;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center}
+.stock{display:grid;gap:8px}
+.sitem{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:10px 12px;border-radius:14px;background:#0b0a11;border:1px solid var(--line);font-size:14px}
+.sitem b{color:#fff}
+.sitem .n{font:800 18px Inter;color:var(--purple2)}
+.sitem .n.low{color:#f87171}
+.sitem.flash{animation:fl 1s}
+@keyframes fl{30%{border-color:var(--purple2);box-shadow:0 0 20px rgba(192,132,252,.5)}}
+.how li{font-size:13.5px;color:var(--muted);margin:0 0 6px 18px}
+.support{font-size:12.5px;color:var(--muted)}
+.support .w{color:#fde68a}
+#fx{position:fixed;inset:0;pointer-events:none;z-index:70;width:100%;height:100%}
+@media (max-width:900px){.layout{grid-template-columns:minmax(0,1fr)}.phone{height:76vh;min-height:520px}}
+</style>
+</head>
+<body>
+<canvas id="fx"></canvas>
+<div class="demo-banner">Demo · płatności testowe · dane przykładowe</div>
+<div class="wrap" id="navw"></div>
+<div class="wrap">
+<div class="layout">
+  <section class="phone" id="phone">
+    <div class="phead">
+      <div class="av"></div>
+      <div><h2>JOKERA<span class="l">l</span> Firma — zamówienia</h2><div class="st" id="status">● online 24/7 · odpowiada od razu</div></div>
+      <div class="tools"><button class="icon on" id="talkBtn" title="Tryb rozmowy: po odpowiedzi od razu słucham">🗣️</button><button class="icon on" id="muteBtn" title="Głos asystenta">🔊</button></div>
+    </div>
+    <div class="chatbox">
+      <div class="chat" id="chat" aria-live="polite"></div>
+      <div class="chips" id="chips"></div>
+      <form class="composer" id="form" autocomplete="off">
+        <button type="button" class="mic" id="mic" title="Mów (pl-PL)">🎙️</button>
+        <input id="inp" placeholder="Napisz lub powiedz, np. 10 palet euro na jutro na 9:00" aria-label="Wiadomość">
+        <button class="send" title="Wyślij">➤</button>
+      </form>
+    </div>
+  </section>
+  <aside class="side">
+    <div class="card"><h3>Stan magazynu na żywo <span class="tag pur">live</span></h3><div class="stock" id="stock"></div><p class="muted" style="font-size:12px;margin-top:8px">Dostępne = stan − aktywne rezerwacje. Zmienia się na żywo, także gdy edytujesz stany w <a href="panel.html" target="_blank">panelu firmy</a>.</p></div>
+    <div class="card"><h3>Jak to działa</h3><ol class="how"><li>Mówisz albo piszesz, czego potrzebujesz.</li><li>Bot sprawdza stan i rezerwuje towar na 30 minut.</li><li>Płacisz (tu: płatność TESTOWA).</li><li>Dostajesz kod QR i odbierasz w <a href="odbior.html" target="_blank">Paczkomacie Joker</a>.</li></ol></div>
+    <div class="card"><h3>Głos</h3><div class="support" id="support"></div></div>
+  </aside>
+</div>
+</div>
+<div class="wrap" id="footw"></div>
+<script src="vendor/qrcode.js"></script>
+<script src="firma-engine.js"></script>
+<script src="shared.js"></script>
+<script>
+(() => {
+const F = window.JokerFirma, $ = JK.$;
+$('navw').innerHTML = JK.nav('zamowienie.html'); $('footw').innerHTML = JK.foot();
+const store = F.createStore(window.localStorage);
+let sess = F.createSession({ store });
+const chat = $('chat'), fx = JK.fireworks($('fx'), { once: true });
+const BASE = location.href.replace(/[#?].*$/, '').replace(/[^/]*$/, '');
+const cards = {}; // orderId -> element
+let talkMode = true, listening = false, rec = null, usedVoice = false;
+
+/* wsparcie */
+const sup = [];
+sup.push(JK.voice.canListen ? '✅ Rozpoznawanie mowy po polsku działa — stuknij 🎙️ i mów.' : '<span class="w">⚠️ Ta przeglądarka nie rozpoznaje mowy (np. Firefox). Pisz — asystent i tak odpowie głosem.</span>');
+if (!JK.voice.canSpeak) sup.push('<span class="w">⚠️ Brak syntezy mowy — odpowiedzi tylko tekstem.</span>');
+sup.push('Najlepiej działa w Chrome (komputer, Android) i Safari na iPhonie. Przy pierwszym użyciu przeglądarka zapyta o mikrofon.');
+$('support').innerHTML = sup.join('<br>');
+
+function bubble(cls, label, html) {
+  const d = document.createElement('div'); d.className = 'msg ' + cls;
+  d.innerHTML = (label ? '<small>' + label + '</small>' : '') + '<span>' + html + '</span>';
+  chat.appendChild(d); chat.scrollTop = chat.scrollHeight; return d;
+}
+const BOT = 'Asystent JOKERA<span class="l">l</span>';
+function chips(list) { const c = $('chips'); c.innerHTML = ''; (list || []).forEach(t => { const b = document.createElement('button'); b.type = 'button'; b.className = 'chip'; b.textContent = t; b.onclick = () => send(t); c.appendChild(b); }); }
+function botSay(res, noVoice) {
+  bubble('a', BOT, JK.brand(res.say));
+  chips(res.chips);
+  if (res.ui && res.ui.orderId) renderCard(res.ui.orderId, true);
+  if (!noVoice) {
+    document.body.classList.add('speaking'); $('phone').classList.add('speaking');
+    JK.speak(res.say, () => { $('phone').classList.remove('speaking'); if (talkMode && usedVoice && !(res.ui && res.ui.type === 'pay')) setTimeout(startListen, 250); });
+  }
+}
+function send(text) {
+  text = String(text || '').trim(); if (!text) return;
+  bubble('k', 'Ty', JK.esc(text)); $('inp').value = '';
+  const res = sess.handle(text);
+  setTimeout(() => botSay(res), 260);
+  renderStock();
+}
+window.__send = send; // test hook
+$('form').onsubmit = e => { e.preventDefault(); usedVoice = false; send($('inp').value); };
+
+/* mikrofon */
+let interimEl = null;
+function startListen() {
+  if (listening) { rec && rec.stop(); return; }
+  usedVoice = true;
+  rec = JK.listen({
+    onInterim: t => { if (!interimEl) interimEl = bubble('k interim', 'Ty (słucham…)', ''); interimEl.lastChild.textContent = t; chat.scrollTop = chat.scrollHeight; },
+    onFinal: t => { if (interimEl) { interimEl.remove(); interimEl = null; } if (t) send(t); },
+    onState: on => { listening = on; $('mic').classList.toggle('on', on); $('status').textContent = on ? '● słucham…' : '● online 24/7 · odpowiada od razu'; },
+    onError: m => { bubble('sys', '', JK.esc(m)); usedVoice = false; }
+  });
+}
+$('mic').onclick = startListen;
+$('muteBtn').onclick = () => { JK.voice.muted = !JK.voice.muted; $('muteBtn').classList.toggle('on', !JK.voice.muted); $('muteBtn').textContent = JK.voice.muted ? '🔇' : '🔊'; if (JK.voice.muted) JK.stopSpeak(); };
+$('talkBtn').onclick = () => { talkMode = !talkMode; $('talkBtn').classList.toggle('on', talkMode); JK.toast(talkMode ? 'Tryb rozmowy włączony — po odpowiedzi od razu słucham.' : 'Tryb rozmowy wyłączony.'); };
+
+/* stany */
+let lastAv = {};
+function renderStock() {
+  store.sweep();
+  const d = store.get(), today = F.iso(new Date());
+  $('stock').innerHTML = d.products.map(p => { const a = store.available(p.id, today); const fl = lastAv[p.id] != null && lastAv[p.id] !== a ? ' flash' : ''; lastAv[p.id] = a;
+    return `<div class="sitem${fl}"><div><b>${p.name}</b><div class="muted" style="font-size:12px">${p.size} · ${F.zl(p.price)}/szt.</div></div><div class="n${a < 20 ? ' low' : ''}">${a}</div></div>`; }).join('');
+}
+
+/* karta zamówienia w czacie */
+function qrImg(text) { const q = qrcode(0, 'M'); q.addData(text); q.make(); return q.createImgTag(6, 8, 'Kod QR odbioru'); }
+function renderCard(id, fresh) {
+  const o = store.order(id); if (!o) return;
+  let el = cards[id];
+  if (!el) { el = document.createElement('div'); el.className = 'oc'; el.dataset.id = id; chat.appendChild(el); cards[id] = el; }
+  const prev = el.dataset.status; el.dataset.status = o.status;
+  const head = `<div class="row"><span>Zamówienie</span><b>${o.no}</b></div><div class="row"><span>Towar</span><b>${o.qty} × ${o.name}</b></div><div class="row"><span>Odbiór</span><b>${F.dayLabel(o.date, new Date())}, ${o.time}</b></div>`;
+  if (o.status === 'rezerwacja') {
+    if (prev === 'rezerwacja' && el.querySelector('.cd')) return tickCard(el, o);
+    el.innerHTML = `<h3>🔒 Rezerwacja <span class="tag pur">30 min</span></h3>${head}<div class="row"><span>Do zapłaty</span><b class="tot">${F.zl(o.total)}</b></div>
+      <div class="cd"><span class="t">30:00</span><span class="bar"><i style="width:100%"></i></span></div>
+      <div class="paytabs"><button type="button" class="on" data-m="blik">BLIK</button><button type="button" data-m="card">Karta</button></div>
+      <div class="pm-blik"><div class="blik"><input inputmode="numeric" maxlength="6" placeholder="••••••" aria-label="Kod BLIK (test)"><button type="button" class="btn primary pay">Zapłać</button></div></div>
+      <div class="pm-card hidden"><button type="button" class="btn primary pay" data-card="1" style="width:100%">💳 Zapłać kartą testową •••• 4242</button></div>
+      <div class="testnote"><span class="tag test">TEST</span> Płatność demonstracyjna — żadne pieniądze nie są pobierane. Wpisz dowolne 6 cyfr, np. 777 123.</div>
+      <div class="acts"><button type="button" class="linkbtn warp">⏩ Symuluj upływ 30 min (demo)</button><button type="button" class="linkbtn cancel">Anuluj rezerwację</button></div>`;
+    el.querySelectorAll('.paytabs button').forEach(b => b.onclick = () => { el.querySelectorAll('.paytabs button').forEach(x => x.classList.toggle('on', x === b)); el.querySelector('.pm-blik').classList.toggle('hidden', b.dataset.m !== 'blik'); el.querySelector('.pm-card').classList.toggle('hidden', b.dataset.m !== 'card'); });
+    const inp = el.querySelector('.blik input'); inp.oninput = () => { inp.value = inp.value.replace(/\D/g, '').slice(0, 6); };
+    el.querySelectorAll('.pay').forEach(b => b.onclick = () => doPay(id, el, !!b.dataset.card));
+    el.querySelector('.warp').onclick = () => { store.expireNow(id); refreshAll(); };
+    el.querySelector('.cancel').onclick = () => { store.cancel(id); refreshAll(); botSay({ say: `Anulowałem rezerwację ${o.no}. Towar wrócił na stan.` }); };
+    tickCard(el, o);
+  } else if (o.status === 'akceptacja') {
+    el.innerHTML = `<h3>⏳ Do akceptacji człowieka <span class="tag warn">duże zamówienie</span></h3>${head}<div class="row"><span>Wartość</span><b class="tot">${F.zl(o.total)}</b></div>
+      <p class="muted" style="font-size:13px;margin-top:8px">Zamówienia powyżej ${F.BIG} szt. zatwierdza pracownik. Towar jest wstępnie zatrzymany. W demo zatwierdzisz je sam w <a href="panel.html" target="_blank">Panelu firmy</a> — ta karta zmieni się sama na płatność.</p>`;
+  } else if (o.status === 'opłacone' || o.status === 'wydane') {
+    if (prev === o.status) return;
+    const url = F.qrPayload(o, BASE);
+    el.innerHTML = `<div class="conf"><div class="ok">✓</div><h3 style="justify-content:center">${o.status === 'wydane' ? 'Odebrane — dziękujemy!' : 'Opłacone! Potwierdzenie wydania towaru'}</h3>
+      ${head}<div class="row"><span>Zapłacono (TEST)</span><b>${F.zl(o.total)}</b></div>
+      <div class="qrbox" id="qr-${o.id}">${qrImg(url)}</div>
+      <div class="muted" style="font-size:12px">Kod odbioru</div><div class="code">${o.code.replace(/(\d{3})(\d{3})/, '$1 $2')}</div>
+      <p class="muted" style="font-size:13px;margin:8px 0">Pokaż ten kod QR w Paczkomacie Joker (skrytka ${o.locker}) — palety czekają na rampie nr 2.</p>
+      <div class="acts" style="justify-content:center"><a class="btn primary sm" href="${url.replace(BASE, '')}" target="_blank">📦 Otwórz Paczkomat Joker</a><a class="btn ghost sm dl" download="${o.no}-kod-odbioru.png">⬇️ Zapisz QR</a></div>
+      ${o.status === 'wydane' ? '<p style="margin-top:10px"><span class="tag ok">wydane</span></p>' : ''}</div>`;
+    const img = el.querySelector('.qrbox img'); if (img) el.querySelector('.dl').href = img.src;
+    if (prev === 'rezerwacja' || prev === 'akceptacja' || fresh) { const r = el.getBoundingClientRect(); fx.burst(r.left + r.width / 2, r.top + 60, 120); setTimeout(() => fx.burst(r.left + r.width * .25, r.top + 40, 80), 250); setTimeout(() => fx.burst(r.left + r.width * .75, r.top + 40, 80), 450); }
+  } else if (o.status === 'wygasła') {
+    if (prev === 'wygasła') return;
+    el.innerHTML = `<h3>⌛ Rezerwacja wygasła</h3>${head}<p class="muted" style="font-size:13px;margin:8px 0">Nie było wpłaty w ciągu 30 minut, więc ${o.qty} szt. wróciło na stan.</p><div class="acts"><button type="button" class="btn ghost sm again">🔁 Zamów ponownie</button></div>`;
+    el.querySelector('.again').onclick = () => send(`${o.qty} ${o.name.toLowerCase().replace('paleta', 'palet')} ${o.date.split('-').reverse().slice(0, 2).join('.')} o ${o.time}`);
+    if (prev === 'rezerwacja') botSay({ say: `Rezerwacja ${o.no} wygasła, bo nie było wpłaty. Towar wrócił na stan. Jeśli nadal potrzebujesz palet, mogę zarezerwować je jeszcze raz.`, chips: ['zamów ponownie'] });
+  } else if (o.status === 'odrzucone') {
+    el.innerHTML = `<h3>✖ Zamówienie anulowane</h3>${head}`;
+  }
+  chat.scrollTop = chat.scrollHeight;
+}
+function tickCard(el, o) {
+  const left = Math.max(0, o.expiresAt - Date.now()), s = Math.ceil(left / 1000);
+  const cd = el.querySelector('.cd'); if (!cd) return;
+  cd.querySelector('.t').textContent = String(Math.floor(s / 60)).padStart(2, '0') + ':' + String(s % 60).padStart(2, '0');
+  cd.querySelector('.bar i').style.width = (100 * left / (F.RES_MIN * 60e3)).toFixed(2) + '%';
+  cd.classList.toggle('low', s < 300);
+}
+function doPay(id, el, card) {
+  const inp = el.querySelector('.blik input');
+  if (!card && !/^\d{6}$/.test(inp.value)) { inp.focus(); JK.toast('Wpisz 6 cyfr kodu BLIK (testowego), np. 777123.'); return; }
+  const box = el.querySelector(card ? '.pm-card' : '.pm-blik');
+  box.innerHTML = `<div class="proc"><span class="spin"></span>${card ? 'Autoryzacja karty testowej…' : 'Potwierdź płatność w aplikacji banku… (symulacja)'}</div>`;
+  setTimeout(() => {
+    const r = store.pay(id, card ? 'Karta testowa 4242' : 'BLIK (TEST)');
+    if (!r.ok) { JK.toast(r.reason); refreshAll(); return; }
+    refreshAll();
+    const o = r.order;
+    botSay({ say: `Płatność przyjęta, dziękuję! Zamówienie ${o.no} jest potwierdzone. Twój kod odbioru to ${o.code.split('').join(' ')}. Pokaż kod QR w Paczkomacie Joker ${F.dayLabel(o.date, new Date()).replace(/ \(.*/, '')} o ${o.time}.`, chips: ['dziękuję', 'zamawiam jeszcze 5 półpalet na jutro na 10:00'] });
+  }, 1400);
+}
+function refreshAll() { store.sweep(); Object.keys(cards).forEach(id => renderCard(id)); renderStock(); }
+setInterval(() => { store.sweep(); Object.keys(cards).forEach(id => { const o = store.order(id); if (!o) return; if (o.status !== cards[id].dataset.status) renderCard(id); else if (o.status === 'rezerwacja') tickCard(cards[id], o); }); renderStock(); }, 1000);
+window.addEventListener('storage', e => { if (e.key === F.KEY) { const was = {}; Object.keys(cards).forEach(id => was[id] = cards[id].dataset.status); refreshAll(); Object.keys(cards).forEach(id => { if (was[id] === 'akceptacja' && cards[id].dataset.status === 'rezerwacja') botSay({ say: 'Dobra wiadomość: człowiek zatwierdził Twoje duże zamówienie. Możesz je teraz opłacić — rezerwacja jest ważna 30 minut.' }); }); } });
+
+renderStock();
+const g = sess.start();
+botSay(g, true);
+const q = new URLSearchParams(location.search).get('q'); if (q) send(q);
+})();
+</script>
+</body>
+</html>

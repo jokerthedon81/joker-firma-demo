@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>JOKERAl Firma — klient zamawia, płaci i odbiera bez rozmowy z człowiekiem (demo)</title>
+<meta name="description" content="Automatyczny przyjmujący zamówienia dla firm paletowych i magazynów: głos i czat po polsku, stany magazynowe na żywo, rezerwacja, płatność, kod QR i odbiór w Paczkomacie Joker. Demo.">
+<meta name="theme-color" content="#050507">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="common.css">
+<style>
+.hero{position:relative;min-height:min(88vh,820px);display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:center;padding:20px 0 60px}
+#sky{position:absolute;inset:-80px -40vw 0;width:calc(100% + 80vw);height:calc(100% + 80px);z-index:-1;pointer-events:none}
+.eyebrow{display:inline-flex;gap:8px;align-items:center;font-size:13px;color:var(--purple2);border:1px solid rgba(192,132,252,.35);padding:6px 12px;border-radius:999px;margin-bottom:20px;background:rgba(10,8,16,.6)}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 10px var(--green);animation:blink 1.6s infinite}
+@keyframes blink{50%{opacity:.3}}
+h1{font-size:clamp(36px,6.2vw,76px);line-height:1.02;font-weight:900;letter-spacing:-.035em;margin-bottom:22px;color:#fff}
+h1 .grad{background:linear-gradient(100deg,#fff 5%,#c9ccd6 35%,var(--purple2) 70%,var(--purple));-webkit-background-clip:text;background-clip:text;color:transparent;background-size:200% 100%;animation:sh 6s ease-in-out infinite}
+@keyframes sh{50%{background-position:100% 0}}
+.lead{font-size:clamp(17px,2vw,20px);color:var(--muted);max-width:560px;margin-bottom:30px;font-weight:300}
+.lead b{color:var(--silver);font-weight:600}
+.btns{display:flex;gap:12px;flex-wrap:wrap}
+.btn.big{font-size:17px;padding:17px 28px;border-radius:16px}
+.btn.pulse{animation:gp 2.4s ease-in-out infinite}
+@keyframes gp{50%{box-shadow:0 10px 60px rgba(192,132,252,.8),inset 0 1px 0 rgba(255,255,255,.25)}}
+.pills{display:flex;gap:8px;flex-wrap:wrap;margin-top:24px}
+.pills span{font-size:13px;color:var(--muted);background:rgba(13,12,18,.8);border:1px solid var(--line);padding:6px 12px;border-radius:999px}
+/* podgląd */
+.prev{border-radius:30px;border:1px solid #2b2540;background:linear-gradient(180deg,rgba(15,11,26,.92),rgba(7,6,11,.95));box-shadow:0 40px 100px rgba(0,0,0,.7),0 0 90px rgba(139,92,246,.28);padding:16px;min-height:470px;display:flex;flex-direction:column;gap:10px;position:relative;overflow:hidden}
+.prev .hd{display:flex;align-items:center;gap:10px;padding-bottom:10px;border-bottom:1px solid var(--line);font-size:14px;color:#fff;font-weight:700}
+.prev .hd i{width:34px;height:34px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff,#aeb2bd 40%,#4b4e5a);box-shadow:0 0 0 3px #1d1033}
+.prev .hd .on{font-weight:400;color:var(--green);font-size:12px;display:block}
+.prev .msg{max-width:90%}
+.qrmini{align-self:flex-start;display:flex;gap:12px;align-items:center;padding:12px;border-radius:16px;border:1px solid #3a2d63;background:#120e1e;animation:pop .3s}
+.qrmini .q{width:74px;height:74px;border-radius:8px;background:#fff;padding:5px;display:grid;grid-template-columns:repeat(9,1fr);gap:1px}
+.qrmini .q b{background:#111;border-radius:1px}
+.qrmini .q b.w{background:#fff}
+.typing{align-self:flex-start;display:flex;gap:4px;padding:12px 14px;border-radius:16px;background:#1c1730}
+.typing i{width:7px;height:7px;border-radius:50%;background:var(--purple2);animation:ty 1s infinite}
+.typing i:nth-child(2){animation-delay:.15s}.typing i:nth-child(3){animation-delay:.3s}
+@keyframes ty{50%{opacity:.25;transform:translateY(-3px)}}
+section.s{padding:60px 0}
+.s h2{font-size:clamp(28px,4vw,44px);letter-spacing:-.03em;color:#fff;margin-bottom:10px;font-weight:800}
+.s .sub{color:var(--muted);max-width:640px;margin-bottom:34px;font-size:17px}
+/* 7 kroków */
+.flow{display:grid;grid-template-columns:repeat(7,1fr);gap:12px;position:relative}
+.flow::before{content:"";position:absolute;top:34px;left:7%;right:7%;height:2px;background:linear-gradient(90deg,transparent,var(--purple),var(--purple2),var(--purple),transparent);opacity:.6}
+.flow::after{content:"";position:absolute;top:30px;left:7%;width:10px;height:10px;border-radius:50%;background:#fff;box-shadow:0 0 16px 4px var(--purple2);animation:run 5s linear infinite}
+@keyframes run{to{left:93%}}
+.step{text-align:center;position:relative;z-index:1}
+.step .ic{width:68px;height:68px;margin:0 auto 12px;border-radius:50%;display:grid;place-items:center;font-size:28px;background:radial-gradient(circle at 35% 30%,#2a1f47,#0d0a16);border:1px solid #4b3a7a;box-shadow:0 0 30px rgba(139,92,246,.3);transition:.3s}
+.step.lit .ic{border-color:var(--purple2);box-shadow:0 0 40px rgba(192,132,252,.8);transform:scale(1.08)}
+.step .n{font-size:11px;color:var(--purple2);font-weight:700;letter-spacing:.1em}
+.step h3{font-size:15px;color:#fff;margin:4px 0}
+.step p{font-size:13px;color:var(--muted)}
+.tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.tile{display:block;text-decoration:none;color:inherit;padding:22px;border-radius:22px;border:1px solid var(--line);background:linear-gradient(180deg,#13101c,#09080d);transition:.25s;position:relative;overflow:hidden}
+.tile:hover{transform:translateY(-4px);border-color:#5b3fa0;box-shadow:0 20px 50px rgba(139,92,246,.25)}
+.tile .e{font-size:30px}
+.tile h3{color:#fff;font-size:18px;margin:10px 0 6px}
+.tile p{color:var(--muted);font-size:14px}
+.tile .go{margin-top:14px;font-size:13.5px;color:var(--purple2);font-weight:600}
+.feats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.feat{padding:20px;border-radius:18px;border:1px solid var(--line);background:#0b0a10}
+.feat b{color:#fff;display:block;margin-bottom:4px}
+.feat span{color:var(--muted);font-size:14px}
+.cta{text-align:center;padding:50px 20px;border-radius:30px;border:1px solid #3a2d63;background:radial-gradient(circle at 50% 0,rgba(139,92,246,.3),transparent 70%),#0a0810}
+@media (max-width:960px){.hero{grid-template-columns:1fr;min-height:0;padding-top:10px}.flow{grid-template-columns:1fr 1fr;gap:18px}.flow::before,.flow::after{display:none}.tiles{grid-template-columns:1fr 1fr}.feats{grid-template-columns:1fr}}
+@media (max-width:520px){.tiles{grid-template-columns:1fr}.prev{min-height:420px}.flow{grid-template-columns:1fr}.step{display:grid;grid-template-columns:60px 1fr;text-align:left;gap:12px;align-items:center}.step .ic{margin:0;width:56px;height:56px;font-size:24px}}
+</style>
+</head>
+<body>
+<div class="demo-banner">Wersja demonstracyjna · działa w przeglądarce · płatności testowe</div>
+<div class="wrap" id="navw"></div>
+<div class="wrap">
+  <header class="hero">
+    <canvas id="sky"></canvas>
+    <div>
+      <div class="eyebrow"><span class="dot"></span> JOKERA<span class="l">l</span> Firma · automatyczne zamówienia 24/7</div>
+      <h1><span class="grad">Klient zamawia, płaci i odbiera</span> — bez rozmowy z człowiekiem.</h1>
+      <p class="lead">Klient mówi albo pisze <b>„potrzebuję 10 palet euro na jutro na 9:00”</b>. JOKERA<span class="l">l</span> sprawdza stan magazynu, rezerwuje towar, przyjmuje płatność i wydaje kod QR, który otwiera <b>Paczkomat Joker</b>.</p>
+      <div class="btns"><a class="btn primary big pulse" href="zamowienie.html">🎙️ Zamów palety głosem</a><a class="btn ghost big" href="panel.html">Panel firmy</a></div>
+      <div class="pills"><span>🇵🇱 po polsku, głos + czat</span><span>📦 stany na żywo</span><span>⏱️ rezerwacja 30 min</span><span>🔳 kod QR + paczkomat</span></div>
+    </div>
+    <div class="prev" id="prev"><div class="hd"><i></i><div>JOKERA<span class="l">l</span> Firma<span class="on">● odpowiada od razu</span></div></div></div>
+  </header>
+
+  <section class="s" id="jak">
+    <h2>7 kroków. Zero telefonów.</h2>
+    <p class="sub">Od zapytania klienta do wydania towaru wszystko dzieje się automatycznie. Człowiek wchodzi do gry tylko przy dużych i nietypowych zamówieniach.</p>
+    <div class="flow" id="flow">
+      <div class="step"><div class="ic">🎙️</div><div><div class="n">KROK 1</div><h3>Zapytanie</h3><p>Klient mówi lub pisze, czego potrzebuje.</p></div></div>
+      <div class="step"><div class="ic">🧩</div><div><div class="n">KROK 2</div><h3>Zrozumienie</h3><p>Produkt, ilość, dzień i godzina. Brakuje czegoś? Dopyta.</p></div></div>
+      <div class="step"><div class="ic">📦</div><div><div class="n">KROK 3</div><h3>Magazyn</h3><p>Dostępne = stan − aktywne rezerwacje.</p></div></div>
+      <div class="step"><div class="ic">🔒</div><div><div class="n">KROK 4</div><h3>Rezerwacja</h3><p>„Tak, nie ma problemu” — towar trzymany 30 minut.</p></div></div>
+      <div class="step"><div class="ic">💳</div><div><div class="n">KROK 5</div><h3>Płatność</h3><p>BLIK lub karta. Bez wpłaty rezerwacja wygasa.</p></div></div>
+      <div class="step"><div class="ic">🔳</div><div><div class="n">KROK 6</div><h3>Potwierdzenie</h3><p>Numer zamówienia, godzina odbioru i kod QR.</p></div></div>
+      <div class="step"><div class="ic">🚚</div><div><div class="n">KROK 7</div><h3>Odbiór</h3><p>Skan w Paczkomacie Joker, skrytka i rampa się otwierają.</p></div></div>
+    </div>
+  </section>
+
+  <section class="s">
+    <h2>Zobacz to na żywo</h2>
+    <p class="sub">Otwórz stronę klienta i panel firmy w dwóch kartach, a zobaczysz, jak stan magazynu zmienia się w czasie rzeczywistym.</p>
+    <div class="tiles">
+      <a class="tile" href="zamowienie.html"><div class="e">🗣️</div><h3>Zamówienie</h3><p>Czat i głos po polsku. Rezerwacja z odliczaniem, płatność testowa, kod QR.</p><div class="go">Zamów palety →</div></a>
+      <a class="tile" href="odbior.html"><div class="e">🔐</div><h3>Paczkomat Joker</h3><p>Skan QR kamerą lub kod z klawiatury. Drzwiczki się otwierają, stan spada.</p><div class="go">Odbierz →</div></a>
+      <a class="tile" href="panel.html"><div class="e">📊</div><h3>Panel firmy</h3><p>Stany, rezerwacje, płatności, wydania, akceptacja dużych zamówień.</p><div class="go">Otwórz panel →</div></a>
+      <a class="tile" href="rodzina.html"><div class="e">👨‍👩‍👦</div><h3>JOKERA<span class="l">l</span> Rodzina</h3><p>Dzieci piszą do bota, mama dostaje jedną krótką wiadomość z przyciskami.</p><div class="go">Zobacz demo →</div></a>
+    </div>
+  </section>
+
+  <section class="s">
+    <h2>Co dostaje firma</h2>
+    <p class="sub">Ten sam silnik obsłuży hurtownię, skład budowlany, wypożyczalnię czy magazyn opału.</p>
+    <div class="feats">
+      <div class="feat"><b>Zamówienia całą dobę</b><span>Klient nie czeka na oddzwonienie. Bot odpowiada w sekundę, także w nocy i w weekend.</span></div>
+      <div class="feat"><b>Koniec z „nie mamy na stanie”</b><span>Gdy brakuje towaru, bot proponuje dostępną ilość albo termin po dostawie.</span></div>
+      <div class="feat"><b>Pieniądze przed wydaniem</b><span>Towar wychodzi tylko po potwierdzonej wpłacie z systemu płatności, nigdy na podstawie zrzutu ekranu.</span></div>
+      <div class="feat"><b>Duże zamówienia do człowieka</b><span>Powyżej 100 sztuk zamówienie trafia do akceptacji. Jedno kliknięcie w panelu.</span></div>
+      <div class="feat"><b>Wydanie bez okienka</b><span>Kod QR otwiera skrytkę z dokumentem WZ i bramę rampy. Stan magazynu aktualizuje się sam.</span></div>
+      <div class="feat"><b>Podłączenie do Twojego systemu</b><span>W wersji produkcyjnej: arkusz, Subiekt, WF-Mag albo API. Płatności: Stripe, BLIK, Przelewy24.</span></div>
+    </div>
+  </section>
+
+  <section class="s"><div class="cta"><h2>Sprawdź sam w 60 sekund</h2><p class="sub" style="margin:0 auto 24px">Powiedz: „potrzebuję 10 palet euro na jutro na 9:00”.</p><a class="btn primary big pulse" href="zamowienie.html">🎙️ Zacznij zamówienie</a></div></section>
+</div>
+<div class="wrap" id="footw"></div>
+<script src="shared.js"></script>
+<script>
+(() => {
+const $ = JK.$;
+$('navw').innerHTML = JK.nav('index.html'); $('footw').innerHTML = JK.foot();
+JK.fireworks($('sky'), { every: 1100 });
+/* animowany podgląd rozmowy */
+const P = $('prev');
+const qr = () => { let h = ''; const pat = [1,1,1,0,1,0,1,1,1, 1,0,1,0,0,1,1,0,1, 1,1,1,0,1,0,1,1,1, 0,0,1,1,0,1,0,1,0, 1,0,0,1,1,0,1,1,0, 0,1,1,0,1,1,0,0,1, 1,1,1,0,0,1,0,1,0, 1,0,1,0,1,0,1,1,1, 1,1,1,0,1,1,0,0,1]; pat.forEach(b => h += `<b class="${b ? '' : 'w'}"></b>`); return h; };
+const script = [
+  ['k', 'Potrzebuję 10 palet euro na jutro na 9:00'],
+  ['a', 'Tak, nie ma problemu! 10 × Paleta euro EPAL na jutro, na 09:00. Razem 450,00 zł. Zarezerwowałem towar na 30 minut.'],
+  ['k', '💳 BLIK ••• ••• — zapłacone'],
+  ['a', 'Płatność przyjęta! Zamówienie JF-1001 potwierdzone. Oto Twój kod odbioru:'],
+  ['qr', '']
+];
+async function play() {
+  while (true) {
+    P.querySelectorAll('.msg,.qrmini,.typing').forEach(e => e.remove());
+    for (const [w, t] of script) {
+      if (w !== 'k') { const ty = document.createElement('div'); ty.className = 'typing'; ty.innerHTML = '<i></i><i></i><i></i>'; P.appendChild(ty); await new Promise(r => setTimeout(r, 900)); ty.remove(); }
+      else await new Promise(r => setTimeout(r, 700));
+      if (w === 'qr') { P.insertAdjacentHTML('beforeend', `<div class="qrmini"><div class="q">${qr()}</div><div><b style="color:#fff">482 913</b><div class="muted" style="font-size:12px">Paczkomat Joker · skrytka 7</div></div></div>`); }
+      else P.insertAdjacentHTML('beforeend', `<div class="msg ${w}"><small>${w === 'k' ? 'Klient' : 'JOKERA<span class="l">l</span>'}</small><span>${JK.brand(t)}</span></div>`);
+    }
+    await new Promise(r => setTimeout(r, 4200));
+  }
+}
+play();
+/* podświetlanie kroków */
+const steps = [...document.querySelectorAll('.step')]; let i = 0;
+setInterval(() => { steps.forEach((s, j) => s.classList.toggle('lit', j === i)); i = (i + 1) % steps.length; }, 720);
+})();
+</script>
+</body>
+</html>
