@@ -83,6 +83,9 @@
 .endm .btns{display:grid;gap:8px}
 @media (max-width:1020px){.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}.kpis .main{grid-column:1/-1}.row2,.grid{grid-template-columns:minmax(0,1fr)}}
 @media (max-width:520px){.gauges{grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.ph{padding-top:var(--s5)}}
+.kpis:empty{min-height:129px}.gauges:empty{min-height:161px}#chart:empty{min-height:160px}
+@media (max-width:1020px){.kpis:empty{min-height:411px}}
+@media (max-width:520px){.gauges:empty{min-height:340px}#chart:empty{min-height:120px}}
 </style>
 </head>
 <body>
