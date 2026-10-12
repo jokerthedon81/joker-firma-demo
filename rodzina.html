@@ -1,94 +1,136 @@
 <!DOCTYPE html>
 <html lang="pl">
 <head>
+<!--META JOKERAl Rodzina — dzieci piszą, mama dostaje gotowe wiadomości | Bot pośredniczy między dziećmi a mamą w pracy: klucze, odbiór, zakupy, pieniądze. Jedna krótka wiadomość z przyciskami. Wersja demonstracyjna.-->
+<!--HEAD-->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>JOKERAl Rodzina — dzieci piszą, mama dostaje gotowe wiadomości (demo)</title>
 <meta name="theme-color" content="#050507">
+<meta name="color-scheme" content="dark">
+<link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+<link rel="icon" href="icons/icon-192.png" sizes="192x192" type="image/png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="JOKERAl">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="JOKERAl Firma">
+<meta property="og:locale" content="pl_PL">
+<meta property="og:image" content="https://jokerthedon81.github.io/joker-firma-demo/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="JOKERAl Firma — klient zamawia, płaci i odbiera bez rozmowy z człowiekiem">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://jokerthedon81.github.io/joker-firma-demo/og.png">
+<link rel="preload" href="fonts/cormorant-garamond-latin-500-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="common.css">
+<title>JOKERAl Rodzina — dzieci piszą, mama dostaje gotowe wiadomości</title>
+<meta name="description" content="Bot pośredniczy między dziećmi a mamą w pracy: klucze, odbiór, zakupy, pieniądze. Jedna krótka wiadomość z przyciskami. Wersja demonstracyjna.">
+<meta property="og:title" content="JOKERAl Rodzina — dzieci piszą, mama dostaje gotowe wiadomości">
+<meta property="og:description" content="Bot pośredniczy między dziećmi a mamą w pracy: klucze, odbiór, zakupy, pieniądze. Jedna krótka wiadomość z przyciskami. Wersja demonstracyjna.">
+<meta property="og:url" content="https://jokerthedon81.github.io/joker-firma-demo/rodzina.html">
+<link rel="canonical" href="https://jokerthedon81.github.io/joker-firma-demo/rodzina.html">
+<!--/HEAD-->
 <style>
-.ph{margin:4px 0 16px}
-.ph h1{font-size:clamp(26px,4.4vw,42px);letter-spacing:-.03em;color:#fff;line-height:1.1}
-.ph p{color:var(--muted);max-width:720px;margin-top:6px}
-.panes{display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:stretch}
-.pane{border-radius:26px;border:1px solid #2b2540;overflow:hidden;display:flex;flex-direction:column;height:min(74vh,700px);min-height:520px;box-shadow:0 30px 80px rgba(0,0,0,.6)}
-.kid{background:linear-gradient(180deg,#0f0b1a,#07060b)}
-.tg{background:linear-gradient(180deg,#0d1420,#070a10);border-color:#1f3550;box-shadow:0 30px 80px rgba(0,0,0,.6),0 0 60px rgba(56,139,253,.12)}
-.phd{display:flex;align-items:center;gap:10px;padding:12px 14px;border-bottom:1px solid var(--line);background:rgba(10,8,16,.85);flex-wrap:wrap}
-.tg .phd{background:#0f1b2b;border-color:#1f3550}
-.phd .t{font-weight:700;color:#fff;font-size:15px}
+.ph{padding:var(--s6) 0 var(--s5);max-width:760px}
+.ph h1{font-size:clamp(40px,6vw,64px);margin:14px 0 14px}
+.ph h1 em{font-style:italic;color:var(--champ)}
+.panes{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:20px;align-items:stretch}
+.pane{border-radius:26px;overflow:hidden;display:flex;flex-direction:column;height:min(76vh,720px);min-height:540px;box-shadow:0 40px 100px rgba(0,0,0,.6)}
+.kid{border:1px solid var(--hair2);background:linear-gradient(180deg,rgba(16,16,19,.92),rgba(8,8,10,.96))}
+.phd{display:flex;align-items:center;gap:12px;padding:14px 16px;border-bottom:1px solid var(--hair);flex-wrap:wrap}
+.phd .t{font-weight:600;color:var(--white);font-size:15px}
 .phd .s{font-size:12px;color:var(--muted)}
+.ava{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;font-family:var(--serif);font-size:20px;font-style:italic;flex:none;color:#1d1810;background:var(--metal)}
 .kids{display:flex;gap:6px;margin-left:auto}
-.kids button{border:1px solid var(--line);background:#0b0a10;color:var(--muted);border-radius:999px;padding:6px 11px;font:600 13px Inter;cursor:pointer}
-.kids button.on{color:#fff;border-color:var(--purple);background:rgba(139,92,246,.2)}
-.kids button.bad.on{border-color:#b91c1c;background:rgba(185,28,28,.2)}
-.tg .chat{background:radial-gradient(circle at 80% 0,rgba(56,139,253,.08),transparent 60%)}
-.tgm{align-self:flex-start;max-width:94%;background:#16263a;border:1px solid #23405f;border-radius:16px;border-bottom-left-radius:6px;padding:10px 12px;font-size:14.5px;color:#e6eefb;animation:pop .3s}
-.tgm.urgent{border-color:#f59e0b;box-shadow:0 0 24px rgba(245,158,11,.25)}
-.tgm.alarm{border-color:#ef4444;background:#2a1215;box-shadow:0 0 24px rgba(239,68,68,.3)}
-.tgm .meta{display:flex;justify-content:space-between;gap:8px;font-size:11px;color:#8aa4c4;margin-bottom:4px}
-.tgm .btns{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:8px}
-.tgm .btns button{border:1px solid #2c5179;background:#1b3350;color:#cfe3ff;border-radius:10px;padding:8px 4px;font:600 12.5px Inter;cursor:pointer}
-.tgm .btns button:hover{background:#244468}
-.tgm .dec{margin-top:8px;font-size:12.5px;color:#9fe3c4}
-.tgm .bi{padding:8px 0;border-top:1px solid #23405f}
-.tgm .bi:first-of-type{border-top:0}
-.tgm .bi .btns{margin-top:6px}
-.modebar{display:flex;align-items:center;gap:10px;padding:10px 14px;border-top:1px solid #1f3550;background:#0b1522;flex-wrap:wrap}
-.sw{position:relative;width:46px;height:26px;flex:none}
-.sw input{opacity:0;width:0;height:0}
-.sw span{position:absolute;inset:0;border-radius:99px;background:#26324a;transition:.25s;cursor:pointer}
-.sw span::after{content:"";position:absolute;left:3px;top:3px;width:20px;height:20px;border-radius:50%;background:#cfd6e4;transition:.25s}
-.sw input:checked+span{background:linear-gradient(135deg,var(--purple),#6d28d9)}
-.sw input:checked+span::after{transform:translateX(20px);background:#fff}
-.modebar .q{margin-left:auto;font-size:12.5px;color:#9fb6d6}
-.safety{margin-top:18px;display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
-.safety div{padding:14px 16px;border-radius:16px;border:1px solid #3a2d63;background:#0c0a13;font-size:13.5px;color:var(--muted)}
-.safety b{display:block;color:#fff;margin-bottom:3px}
-@media (max-width:900px){.panes{grid-template-columns:minmax(0,1fr)}.pane{height:auto;min-height:0}.pane .chat{min-height:300px;max-height:56vh}.safety{grid-template-columns:1fr}}
+.kids button{border:0;box-shadow:inset 0 0 0 1px var(--hair2);background:transparent;color:var(--muted);border-radius:var(--r-pill);min-height:34px;padding:0 12px;font:500 13px var(--sans);cursor:pointer;transition:background var(--fast),color var(--fast)}
+.kids button[aria-pressed=true]{color:var(--white);background:rgba(255,255,255,.08);box-shadow:inset 0 0 0 1px var(--hairc)}
+.kids button.bad[aria-pressed=true]{box-shadow:inset 0 0 0 1px rgba(255,122,122,.6);color:var(--err)}
+.composer{display:flex;gap:10px;align-items:center;padding:12px 14px;border-top:1px solid var(--hair)}
+.composer input{flex:1;min-width:0;border-radius:var(--r-pill);padding-left:18px}
+.mic,.send{width:48px;height:48px;flex:none;border-radius:50%;border:0;cursor:pointer;display:grid;place-items:center;transition:transform var(--fast)}
+.mic{color:#1d1810;background:var(--metal)}
+.mic.on{box-shadow:0 0 0 6px rgba(217,201,163,.14),0 0 30px rgba(217,201,163,.5)}
+.mic.nosr{background:rgba(255,255,255,.06);color:var(--dim)}
+.send{background:rgba(255,255,255,.07);color:var(--white);box-shadow:inset 0 0 0 1px var(--hair2)}
+.mic:active,.send:active{transform:scale(.94)}
+/* panel mamy — wygląd komunikatora */
+.tg{background:#0e1621;border:1px solid #1d2a38}
+.tg .phd{background:#17212b;border-color:#0b1118}
+.tg .ava{background:linear-gradient(180deg,#e8d9b5,#a8956a)}
+.tg .chat{background:radial-gradient(600px 400px at 80% 0%,rgba(43,82,120,.18),transparent 60%),radial-gradient(500px 400px at 0% 100%,rgba(217,201,163,.05),transparent 60%),#0e1621}
+.tgm{flex:none;align-self:flex-start;max-width:90%;background:#182533;border-radius:14px 14px 14px 4px;padding:8px 11px 6px;font-size:14.5px;color:#f1f3f5;animation:rise .4s cubic-bezier(.16,1,.3,1) both;position:relative;margin-top:4px}
+.tgm::before{content:"";position:absolute;left:-6px;bottom:0;width:10px;height:12px;background:#182533;clip-path:polygon(100% 0,100% 100%,0 100%)}
+.tgm .who{font-size:12.5px;font-weight:600;color:#e6c98f;margin-bottom:2px}
+.tgm .tm{float:right;font-size:11px;color:#6d8296;margin:6px 0 -2px 10px}
+.tgm.urgent .who{color:#f1c766}
+.tgm.alarm{background:#2a1517}.tgm.alarm::before{background:#2a1517}.tgm.alarm .who{color:#ff8a8a}
+.kb{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;margin-top:4px;align-self:flex-start;max-width:90%;width:100%;animation:rise .4s .05s cubic-bezier(.16,1,.3,1) both}
+.kb.one{grid-template-columns:1fr}
+.kb button{border:0;min-height:38px;border-radius:8px;background:rgba(43,82,120,.55);color:#fff;font:500 13.5px var(--sans);cursor:pointer;transition:background var(--fast),transform var(--fast)}
+.kb button:hover{background:rgba(43,82,120,.85)}.kb button:active{transform:scale(.97)}
+.dec{font-size:12.5px;color:#8fd0b0;margin-top:4px;align-self:flex-start}
+.bi{padding:6px 0;border-top:1px solid rgba(255,255,255,.06)}
+.bi:first-of-type{border-top:0}
+.bi .kb{max-width:100%}
+.tg .typing{background:#182533;border:0}
+.tg .typing i{background:#6d8296}
+.modebar{display:flex;align-items:center;gap:12px;padding:12px 16px;background:#17212b;border-top:1px solid #0b1118;flex-wrap:wrap}
+.sw{position:relative;width:46px;height:28px;flex:none}
+.sw input{position:absolute;opacity:0;width:100%;height:100%;margin:0;cursor:pointer;z-index:1}
+.sw span{position:absolute;inset:0;border-radius:99px;background:#2b3846;transition:background .25s}
+.sw span::after{content:"";position:absolute;left:3px;top:3px;width:22px;height:22px;border-radius:50%;background:#dfe5ec;transition:transform .25s cubic-bezier(.3,1.3,.5,1);box-shadow:0 2px 4px rgba(0,0,0,.4)}
+.sw input:checked+span{background:var(--champ3)}
+.sw input:checked+span::after{transform:translateX(18px);background:#fff}
+.sw input:focus-visible+span{outline:1px solid var(--champ);outline-offset:3px}
+.modebar .q{margin-left:auto;font-size:12.5px;color:#8ca0b4;display:flex;align-items:center;gap:8px}
+.safety{margin-top:20px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.safety div{padding:20px;border-radius:18px;border:1px solid var(--hair);background:rgba(255,255,255,.02);font-size:14px;color:var(--muted)}
+.safety .ic{color:var(--champ);margin-bottom:12px}
+.safety b{display:block;color:var(--white);margin-bottom:4px;font-weight:600}
+@media (max-width:900px){.panes{grid-template-columns:minmax(0,1fr)}.pane{height:auto;min-height:0}.pane .chat{min-height:320px;max-height:58vh}.safety{grid-template-columns:minmax(0,1fr)}.kids{margin-left:0;width:100%}}
 </style>
 </head>
 <body>
-<div class="demo-banner">Demo · symulacja Telegrama · dane przykładowe</div>
-<div class="wrap" id="navw"></div>
-<div class="wrap">
-  <div class="ph"><h1>JOKERA<span class="l">l</span> Rodzina 👨‍👩‍👦</h1><p>Dzieci piszą albo mówią do bota. Bot dopytuje o szczegóły i wysyła mamie na Telegram <b>jedną krótką, gotową wiadomość</b> z przyciskami. Mama jest w pracy, więc nie musi z nikim rozmawiać.</p></div>
+<div id="navw"></div>
+<main class="wrap">
+  <div class="ph"><span class="label">Wariant rodzinny</span><h1>JOKERA<span class="l">l</span> <em>Rodzina</em></h1><p class="lead">Dzieci piszą albo mówią do bota. Bot dopytuje o szczegóły i wysyła mamie jedną krótką, gotową wiadomość z przyciskami. Mama jest w pracy — nie musi z nikim rozmawiać.</p></div>
   <div class="panes">
-    <section class="pane kid">
-      <div class="phd"><div><div class="t" id="kidName">👦 Jasiu</div><div class="s" id="kidSub">Telegram @jasiu_firma · zapisane konto ✓</div></div><div class="kids" id="kids"></div></div>
-      <div class="chatbox"><div class="chat" id="kchat"></div><div class="chips" id="chips"></div>
-        <form class="composer" id="form" autocomplete="off"><button type="button" class="mic" id="mic" title="Mów">🎙️</button><input id="inp" placeholder="Napisz do bota…" aria-label="Wiadomość dziecka"><button class="send">➤</button></form></div>
+    <section class="pane kid" aria-label="Czat dziecka">
+      <div class="phd"><span class="ava" id="kidAva" aria-hidden="true">J</span><div><div class="t" id="kidName">Jasiu</div><div class="s" id="kidSub"></div></div><div class="kids" id="kids" role="group" aria-label="Kto pisze"></div></div>
+      <div class="chat" id="kchat" role="log" aria-live="polite"></div>
+      <div class="chips" id="chips" aria-label="Przykładowe wiadomości"></div>
+      <form class="composer" id="form" autocomplete="off"><button type="button" class="mic" id="mic" aria-label="Mów"></button><label class="sr" for="inp">Wiadomość dziecka</label><input id="inp" placeholder="Napisz do bota…" enterkeyhint="send"><button class="send" id="sendB" aria-label="Wyślij"></button></form>
     </section>
-    <section class="pane tg">
-      <div class="phd"><div style="width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,#38bdf8,#2563eb);display:grid;place-items:center;font-size:18px">👩</div><div><div class="t">Mama · Telegram</div><div class="s">bot JOKERA<span class="l">l</span> Rodzina</div></div></div>
-      <div class="chat" id="mchat"></div>
-      <div class="modebar"><label class="sw"><input type="checkbox" id="work"><span></span></label><div><b style="color:#fff;font-size:14px">Mama w pracy</b><div class="s" style="font-size:12px;color:#9fb6d6">pilne od razu, reszta zbiorczo co godzinę</div></div><div class="q" id="queue"></div></div>
+    <section class="pane tg" aria-label="Komunikator mamy (symulacja)">
+      <div class="phd"><span class="ava" aria-hidden="true">M</span><div><div class="t">Mama</div><div class="s" style="color:#6d8296">bot JOKERA<span class="l">l</span> Rodzina · Telegram (symulacja)</div></div></div>
+      <div class="chat" id="mchat" role="log" aria-live="polite"></div>
+      <div class="modebar"><span class="sw"><input type="checkbox" id="work" aria-label="Tryb: mama w pracy"><span></span></span><div><b style="color:#fff;font-size:14px;font-weight:600">Mama w pracy</b><div style="font-size:12px;color:#8ca0b4">pilne od razu, reszta zbiorczo co godzinę</div></div><div class="q" id="queue"></div></div>
     </section>
   </div>
-  <div class="safety">
-    <div><b>🛡️ Bot nigdy nie wysyła pieniędzy ani kodów</b>Przygotowuje tylko prośbę. Mama decyduje i płaci sama, np. kupuje kod Paysafecard.</div>
-    <div><b>👤 Tylko zapisane konta dzieci</b>Prośby z nieznanych numerów są odrzucane, a mama dostaje ostrzeżenie przed oszustwem „na dziecko”.</div>
-    <div><b>🔕 Mniej powiadomień</b>W trybie „Mama w pracy” sprawy niepilne trafiają do zbiorczego podsumowania.</div>
-  </div>
-</div>
-<div class="wrap" id="footw"></div>
+  <div class="safety" id="safety"></div>
+</main>
+<div id="footw"></div>
 <script src="firma-engine.js"></script>
 <script src="rodzina-engine.js"></script>
 <script src="shared.js"></script>
 <script>
 (() => {
-const R = window.JokerRodzina, $ = JK.$;
-$('navw').innerHTML = JK.nav('rodzina.html'); $('footw').innerHTML = JK.foot();
+const R = window.JokerRodzina, $ = JK.$, I = JK.icon;
+JK.mount('rodzina.html');
+$('mic').innerHTML = I('mic'); $('sendB').innerHTML = I('send');
+if (!JK.voice.canListen) { $('mic').classList.add('nosr'); $('mic').setAttribute('aria-label', 'Mowa niedostępna w tej przeglądarce'); }
+$('safety').innerHTML = [['shield', 'Bot nigdy nie wysyła pieniędzy ani kodów', 'Przygotowuje tylko prośbę. Mama decyduje i płaci sama, np. kupuje kod Paysafecard.'], ['users', 'Tylko zapisane konta dzieci', 'Prośby z nieznanych numerów są odrzucane, a mama dostaje ostrzeżenie przed oszustwem „na dziecko”.'], ['clock', 'Mniej powiadomień', 'W trybie „Mama w pracy” sprawy niepilne trafiają do zbiorczego podsumowania.']].map(([ic, b, t]) => `<div>${I(ic)}<b>${b}</b>${t}</div>`).join('');
 const fam = R.createFamily();
 const hist = {}; let cur = 'jasiu', queue = [];
 const SC = { jasiu: ['Mamo, potrzebuję 50 zł na kod Paysafecard do firmy, dziś do 18', 'Gdzie mam zostawić klucze?', 'Odbierzesz mnie ze szkoły o 14:20?', 'Wrócę o 20, mam trening'], ola: ['Zostawiłam klucze u sąsiadki o 15:30', 'Kup mleko i chleb', 'Potrzebuję 30 zł na wycieczkę na jutro'], obcy: ['Mamo, zgubiłem telefon, wyślij mi kod Paysafecard 200 zł, pilne'] };
-function kids() { $('kids').innerHTML = R.CHILDREN.map(c => `<button type="button" data-k="${c.id}" class="${c.id === cur ? 'on' : ''}${c.registered ? '' : ' bad'}">${c.emoji} ${c.name}</button>`).join(''); }
+function kids() { $('kids').innerHTML = R.CHILDREN.map(c => `<button type="button" data-k="${c.id}" aria-pressed="${c.id === cur}" class="${c.registered ? '' : 'bad'}">${c.name}</button>`).join(''); }
 function renderKid() {
   const c = R.CHILDREN.find(x => x.id === cur);
-  $('kidName').textContent = c.emoji + ' ' + c.name; $('kidSub').innerHTML = `Telegram ${c.tg} · ${c.registered ? 'zapisane konto ✓' : '<span style="color:#f87171">konto niezapisane ✗</span>'}`;
+  $('kidName').textContent = c.name; $('kidAva').textContent = c.registered ? c.name[0] : '?';
+  $('kidSub').innerHTML = `${c.tg} · ${c.registered ? 'zapisane konto' : '<span style="color:var(--err)">konto niezapisane</span>'}`;
   $('kchat').innerHTML = ''; (hist[cur] || []).forEach(m => addK(m[0], m[1], true));
   if (!(hist[cur] || []).length) addK('a', c.registered ? `Cześć ${c.name}! Napisz, o co chodzi: klucze, powrót, odbiór, zakupy albo pieniądze. Przekażę mamie krótko i konkretnie.` : 'Bot JOKERAl Rodzina. Obsługuję tylko zapisane konta dzieci.');
   $('chips').innerHTML = ''; (SC[cur] || []).forEach(t => { const b = document.createElement('button'); b.type = 'button'; b.className = 'chip'; b.textContent = t; b.onclick = () => send(t); $('chips').appendChild(b); });
@@ -96,37 +138,40 @@ function renderKid() {
 }
 function addK(cls, text, replay) {
   if (!replay) (hist[cur] = hist[cur] || []).push([cls, text]);
-  const d = document.createElement('div'); d.className = 'msg ' + cls;
-  d.innerHTML = `<small>${cls === 'k' ? R.CHILDREN.find(x => x.id === cur).name : cls === 'mama' ? 'Mama (przez bota)' : 'Bot JOKERA<span class="l">l</span>'}</small><span>${JK.brand(text)}</span>`;
-  if (cls === 'mama') { d.className = 'msg a'; d.style.borderColor = '#2c5179'; d.style.background = 'linear-gradient(180deg,#132538,#0d1a29)'; }
+  const d = document.createElement('div'); d.className = 'msg ' + (cls === 'mama' ? 'a' : cls);
+  d.innerHTML = `<small>${cls === 'k' ? JK.esc(R.CHILDREN.find(x => x.id === cur).name) : cls === 'mama' ? 'Mama' : 'Bot'}</small><span>${JK.brand(text)}</span>`;
+  if (cls === 'mama') d.style.cssText = 'border-color:rgba(217,201,163,.35);background:rgba(217,201,163,.07)';
   $('kchat').appendChild(d); $('kchat').scrollTop = 1e6;
 }
-function toChild(childId, cls, text) { (hist[childId] = hist[childId] || []).push([cls, text]); if (childId === cur) { const h = hist[cur]; hist[cur] = h.slice(0, -1); addK(cls, text); } }
+function toChild(childId, cls, text) { if (childId === cur) addK(cls, text); else (hist[childId] = hist[childId] || []).push([cls, text]); }
 const tm = ms => new Date(ms).toLocaleTimeString('pl-PL', { hour: '2-digit', minute: '2-digit' });
-const btns = id => `<div class="btns"><button data-n="${id}" data-a="zgoda">✅ Zgoda</button><button data-n="${id}" data-a="odmowa">❌ Odmów</button><button data-n="${id}" data-a="oddzwonie">📞 Oddzwonię</button></div>`;
-function momMsg(nt) {
-  const d = document.createElement('div'); d.className = 'tgm' + (nt.kind === 'alarm' ? ' alarm' : nt.urgent ? ' urgent' : ''); d.dataset.n = nt.id;
-  d.innerHTML = `<div class="meta"><span>${nt.kind === 'alarm' ? '🚨 OSTRZEŻENIE' : nt.urgent ? '⚡ PILNE' : 'Info'}</span><span>${tm(nt.at)}</span></div><div>${JK.esc(nt.text)}</div>` + (nt.kind === 'alarm' ? `<div class="btns" style="grid-template-columns:1fr"><button data-n="${nt.id}" data-a="zgoda">🚫 Zablokuj numer</button></div>` : btns(nt.id)) + '<div class="dec hidden"></div>';
-  $('mchat').appendChild(d); $('mchat').scrollTop = 1e6;
-  if ('vibrate' in navigator) try { navigator.vibrate(nt.urgent ? [60, 40, 60] : 30); } catch (e) { }
+const kb = id => `<div class="kb" data-n="${id}"><button data-n="${id}" data-a="zgoda">Zgoda</button><button data-n="${id}" data-a="odmowa">Odmów</button><button data-n="${id}" data-a="oddzwonie">Oddzwonię</button></div>`;
+async function momMsg(nt) {
+  await JK.typing($('mchat'), 500);
+  const head = nt.kind === 'alarm' ? 'Ostrzeżenie' : nt.urgent ? 'Pilne · ' + nt.child.name : nt.child.name;
+  $('mchat').insertAdjacentHTML('beforeend', `<div class="tgm${nt.kind === 'alarm' ? ' alarm' : nt.urgent ? ' urgent' : ''}" data-m="${nt.id}"><div class="who">${JK.esc(head)}</div>${JK.esc(nt.text)}<span class="tm num">${tm(nt.at)}</span></div>` + (nt.kind === 'alarm' ? `<div class="kb one" data-n="${nt.id}"><button data-n="${nt.id}" data-a="zgoda">Zablokuj numer</button></div>` : kb(nt.id)));
+  $('mchat').scrollTop = 1e6;
+  if ('vibrate' in navigator) try { navigator.vibrate(nt.urgent ? [40, 30, 40] : 20); } catch (e) { }
 }
-function batchMsg() {
-  if (!queue.length) return;
-  const d = document.createElement('div'); d.className = 'tgm';
-  d.innerHTML = `<div class="meta"><span>🗂️ Podsumowanie zbiorcze (${queue.length})</span><span>${tm(Date.now())}</span></div>` + queue.map(nt => `<div class="bi" data-n="${nt.id}"><div>${JK.esc(nt.text)}</div>${btns(nt.id)}<div class="dec hidden"></div></div>`).join('');
-  $('mchat').appendChild(d); $('mchat').scrollTop = 1e6; queue = []; updQ();
+async function batchMsg() {
+  if (!queue.length) return; const q = queue; queue = []; updQ();
+  await JK.typing($('mchat'), 500);
+  $('mchat').insertAdjacentHTML('beforeend', `<div class="tgm" style="max-width:94%"><div class="who">Podsumowanie (${q.length})</div>` + q.map(nt => `<div class="bi"><div>${JK.esc(nt.text)}</div>${kb(nt.id)}</div>`).join('') + `<span class="tm num">${tm(Date.now())}</span></div>`);
+  $('mchat').scrollTop = 1e6;
 }
-function updQ() { $('queue').innerHTML = $('work').checked ? (queue.length ? `W kolejce: <b>${queue.length}</b> <button type="button" class="btn ghost sm" id="flush" style="margin-left:6px">⏩ Wyślij teraz (demo)</button>` : 'Kolejka pusta') : ''; const f = $('flush'); if (f) f.onclick = batchMsg; }
-$('work').onchange = () => { if (!$('work').checked) batchMsg(); updQ(); JK.toast($('work').checked ? 'Tryb „Mama w pracy”: niepilne sprawy trafią do podsumowania.' : 'Tryb normalny: wszystko od razu.'); };
+function updQ() { const on = $('work').checked; $('queue').innerHTML = on ? (queue.length ? `W kolejce: <b style="color:#fff">${queue.length}</b> <button type="button" class="btn ghost sm" id="flush">Wyślij teraz</button>` : 'Kolejka pusta') : ''; const f = $('flush'); if (f) f.onclick = batchMsg; }
+$('work').onchange = () => { if (!$('work').checked) batchMsg(); updQ(); JK.toast($('work').checked ? 'Tryb „Mama w pracy”: niepilne sprawy trafią do podsumowania.' : 'Tryb normalny: wszystko od razu.', 'info'); };
 setInterval(() => { if ($('work').checked && queue.length && Date.now() - queue[0].at > 3600e3) batchMsg(); }, 30e3);
+let chain = Promise.resolve();
 function send(text) {
   text = String(text || '').trim(); if (!text) return; $('inp').value = '';
   addK('k', text);
-  const res = fam.handle(cur, text);
-  setTimeout(() => {
-    res.say.forEach(s => addK('a', s));
-    if (res.notify) { if ($('work').checked && !res.notify.urgent) { queue.push(res.notify); updQ(); JK.toast('Niepilne — dodane do podsumowania dla mamy.'); } else momMsg(res.notify); }
-  }, 320);
+  const res = fam.handle(cur, text), who = cur;
+  chain = chain.then(async () => {
+    await JK.typing($('kchat'), 420);
+    res.say.forEach(s => { if (who === cur) addK('a', s); else (hist[who] = hist[who] || []).push(['a', s]); });
+    if (res.notify) { if ($('work').checked && !res.notify.urgent) { queue.push(res.notify); updQ(); JK.toast('Niepilne — dodane do podsumowania dla mamy.', 'info'); } else await momMsg(res.notify); }
+  });
 }
 window.__send = send; window.__kid = k => { cur = k; renderKid(); };
 $('form').onsubmit = e => { e.preventDefault(); send($('inp').value); };
@@ -134,20 +179,21 @@ $('kids').onclick = e => { const b = e.target.closest('button'); if (!b) return;
 $('mchat').onclick = e => {
   const b = e.target.closest('button[data-a]'); if (!b) return;
   const r = fam.decide(b.dataset.n, b.dataset.a); if (!r) return;
-  const box = b.closest('.bi') || b.closest('.tgm');
-  box.querySelector('.btns').remove(); const dec = box.querySelector('.dec'); dec.classList.remove('hidden');
-  dec.textContent = { zgoda: '✅ Wysłano odpowiedź: zgoda', odmowa: '❌ Wysłano odpowiedź: odmowa', oddzwonie: '📞 Dziecko wie, że oddzwonisz' }[b.dataset.a];
-  if (r.reply !== 'Zablokowano.') toChild(r.child, 'mama', r.reply); else dec.textContent = '🚫 Numer zablokowany';
+  const k = b.closest('.kb'); const dec = document.createElement('div'); dec.className = 'dec';
+  dec.textContent = { zgoda: 'Wysłano: zgoda', odmowa: 'Wysłano: odmowa', oddzwonie: 'Dziecko wie, że oddzwonisz' }[b.dataset.a];
+  if (r.reply === 'Zablokowano.') dec.textContent = 'Numer zablokowany'; else toChild(r.child, 'mama', r.reply);
+  k.replaceWith(dec);
 };
 let listening = false, rec = null, interimEl = null;
 $('mic').onclick = () => {
+  if (!JK.voice.canListen) { JK.toast('Ta przeglądarka nie rozpoznaje mowy. Pisz albo stuknij przykład.', 'err'); $('inp').focus(); return; }
   if (listening) { rec && rec.stop(); return; }
   rec = JK.listen({ onInterim: t => { if (!interimEl) { interimEl = document.createElement('div'); interimEl.className = 'msg k interim'; $('kchat').appendChild(interimEl); } interimEl.textContent = t; },
-    onFinal: t => { if (interimEl) { interimEl.remove(); interimEl = null; } if (t) send(t); }, onState: on => { listening = on; $('mic').classList.toggle('on', on); }, onError: m => addK('a', m) });
+    onFinal: t => { if (interimEl) { interimEl.remove(); interimEl = null; } if (t) send(t); }, onState: on => { listening = on; $('mic').classList.toggle('on', on); }, onError: m => JK.toast(m, 'err') });
 };
-const w = document.createElement('div'); w.className = 'tgm'; w.innerHTML = '<div class="meta"><span>JOKERAl Rodzina</span><span></span></div>Cześć! Tu będą przychodzić krótkie wiadomości od dzieci. Jedno stuknięcie i sprawa załatwiona. Bot nigdy nie wysyła pieniędzy ani kodów za Ciebie.'.replace('JOKERAl', 'JOKERA<span class="l">l</span>');
-$('mchat').appendChild(w);
+$('mchat').insertAdjacentHTML('beforeend', `<div class="tgm"><div class="who">JOKERA<span class="l">l</span> Rodzina</div>Tu będą przychodzić krótkie wiadomości od dzieci. Jedno stuknięcie i sprawa załatwiona. Bot nigdy nie wysyła pieniędzy ani kodów za Ciebie.<span class="tm"></span></div>`);
 renderKid(); updQ();
+if (JK.pokaz.on) JK.pokaz.stop(true);
 })();
 </script>
 </body>

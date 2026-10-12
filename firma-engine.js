@@ -18,6 +18,7 @@
   const DOW = ['niedziela', 'poniedziałek', 'wtorek', 'środa', 'czwartek', 'piątek', 'sobota'];
   const DOW_ACC = ['niedzielę', 'poniedziałek', 'wtorek', 'środę', 'czwartek', 'piątek', 'sobotę'];
   const MON_GEN = ['stycznia', 'lutego', 'marca', 'kwietnia', 'maja', 'czerwca', 'lipca', 'sierpnia', 'września', 'października', 'listopada', 'grudnia'];
+  const window_ = (t, plus) => { const [h, m] = t.split(':').map(Number); const e = h * 60 + m + (plus || 60); return t + '–' + pad(Math.floor(e / 60) % 24) + ':' + pad(e % 60); };
   const hm = m => pad(Math.floor(m / 60)) + ':' + pad(m % 60);
   function dayLabel(isoD, now) {
     const d = fromIso(isoD), t = iso(now), diff = Math.round((d - fromIso(t)) / 864e5);
@@ -216,6 +217,20 @@
         d.log.unshift({ at: t, type: 'issue', text: `Paczkomat Joker: wydano ${o.no} — skrytka ${o.locker}, ${o.qty} × ${o.name}. Stan ${p.name}: ${p.stock} szt.` });
         save(); return { ok: true, order: o };
       },
+      changeQty(id, qty) {
+        S.sweep();
+        const o0 = S.order(id);
+        if (!o0 || o0.status !== 'rezerwacja') return { ok: false, reason: 'Tej rezerwacji nie da się już zmienić.' };
+        qty = Math.floor(+qty || 0);
+        if (qty < 1) return { ok: false, reason: 'Minimalnie 1 sztuka. Żeby zrezygnować, użyj „Cofnij zamówienie”.' };
+        if (qty > BIG) return { ok: false, reason: `Powyżej ${BIG} szt. zamówienie zatwierdza człowiek — napisz w czacie nową ilość.` };
+        const free = S.available(o0.product, o0.date) + o0.qty;
+        if (qty > free) return { ok: false, reason: `Na ten termin mam maksymalnie ${free} szt.`, max: free };
+        const d = load(), o = d.orders.find(x => x.id === id), old = o.qty;
+        o.qty = qty; o.total = qty * o.unit;
+        d.log.unshift({ at: clock(), type: 'edit', text: `Klient zmienił ilość w ${o.no}: ${old} → ${qty} szt. (${zl(o.total)}).` });
+        save(); return { ok: true, order: o };
+      },
       updateProduct(id, patch) { const d = load(), p = d.products.find(x => x.id === id); if (!p) return; Object.assign(p, patch); d.log.unshift({ at: clock(), type: 'stock', text: `Zmieniono ${p.name}: stan ${p.stock}, cena ${zl(p.price)}, dostawa ${p.deliveryQty} szt. ${p.deliveryDate ? short(p.deliveryDate) : ''}.` }); save(); }
     };
     return S;
@@ -285,7 +300,7 @@
         if (id) { const p = d.find(x => x.id === id); return r(`Na dziś mam dostępne ${store.available(id, today)} szt. (${pname(id)}). Kolejna dostawa ${p.deliveryQty} szt. ${dayLabel(p.deliveryDate, now())}.`); }
         return r('Dostępne od ręki: ' + d.map(p => `${p.name} ${store.available(p.id, today)} szt.`).join(', ') + '.');
       }
-      if (/\b(godzin\w* (otwar|prac)|kiedy (otwar|czynn)|otwarte|czynne)\b/.test(t)) return r('Rampa samoobsługowa i Paczkomat Joker działają codziennie od 6:00 do 22:00. Zamówienia przyjmuję przez całą dobę.');
+      if (/\b(godzin\w* (otwar|prac)\w*|kiedy (otwar|czynn)\w*|otwarte|czynne|do ktorej)\b/.test(t)) return r('Rampa samoobsługowa i Paczkomat Joker działają codziennie od 6:00 do 22:00. Zamówienia przyjmuję przez całą dobę.');
       if (/\b(gdzie|adres|dojazd|lokalizac\w*)\b/.test(t)) return r('Magazyn demo: ulica Paletowa 7, brama numer 2 (adres przykładowy). Na miejscu skanujesz kod QR w Paczkomacie Joker i odbierasz palety z rampy.');
       if (/\b(jak (odebrac|odbior)|odbior|paczkomat|kod qr)\b/.test(t) && !st.active) return r('Po opłaceniu dostajesz kod QR. Podjeżdżasz o umówionej godzinie, skanujesz kod w Paczkomacie Joker, otwiera się skrytka z dokumentem wydania, a palety czekają na rampie.');
       if (/\b(czlowiek\w*|konsultant\w*|pracownik\w*|kierownik\w*|szef\w*)\b/.test(t)) return r('Przekazałem prośbę o kontakt do magazynu, człowiek oddzwoni w godzinach pracy. A jeśli chcesz, przyjmę zamówienie od razu, zajmie to minutę.');
@@ -306,6 +321,14 @@
         if (/\b(ponownie|jeszcze raz|powtorz\w* zamowienie)\b/.test(raw) && st.lastOrder) {
           const o = store.order(st.lastOrder);
           if (o) { st.product = o.product; st.qty = o.qty; st.date = o.date; st.time = +o.time.slice(0, 2) * 60 + +o.time.slice(3); st.active = true; return askNext(); }
+        }
+        if (st.lastOrder && /\b(zmien\w*|jednak|popraw\w*|zamiast)\b/.test(raw)) {
+          const lo = store.order(st.lastOrder), m = raw.match(/\b(\d{1,5})\b(?!\s*:)/g);
+          if (lo && lo.status === 'rezerwacja' && m) {
+            const q = +m[m.length - 1], c = store.changeQty(lo.id, q);
+            if (c.ok) return r(`Jasne, zmieniłem: ${c.order.qty} × ${c.order.name}, razem ${zl(c.order.total)}. Rezerwacja dalej trwa.`, { ui: { type: 'pay', orderId: lo.id } });
+            return r(c.reason);
+          }
         }
         const cm = raw.match(/\b(?:firma|z firmy|nazywam sie|na nazwisko|na firme|jestem)\s+([a-z0-9][a-z0-9 ]{1,40}?)(?=\s+(?:i|potrzebuje|chce|chcialbym|poprosze|zamawiam)\b|$)/);
         if (cm) st.customer = cm[1].replace(/\b\w/g, c => c.toUpperCase());
@@ -338,5 +361,5 @@
     };
   }
 
-  return { PRODUCTS, KEY, RES_MIN, BIG, norm, prep, wordsToNums, parseTime, parseDate, parseQty, parse, iso, hm, zl, dayLabel, short, createStore, memoryStorage, createSession, qrPayload, parsePayload, verifyExt, seed, findProduct };
+  return { pickupWindow: window_, PRODUCTS, KEY, RES_MIN, BIG, norm, prep, wordsToNums, parseTime, parseDate, parseQty, parse, iso, hm, zl, dayLabel, short, createStore, memoryStorage, createSession, qrPayload, parsePayload, verifyExt, seed, findProduct };
 });

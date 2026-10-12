@@ -1,165 +1,210 @@
 <!DOCTYPE html>
 <html lang="pl">
 <head>
+<!--META JOKERAl Firma — klient zamawia, płaci i odbiera bez rozmowy z człowiekiem | Automatyczny przyjmujący zamówienia dla firm paletowych i magazynów: głos i czat po polsku, stany na żywo, rezerwacja, płatność, bilet z kodem QR i odbiór w Paczkomacie Joker.-->
+<!--HEAD-->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>JOKERAl Firma — klient zamawia, płaci i odbiera bez rozmowy z człowiekiem (demo)</title>
-<meta name="description" content="Automatyczny przyjmujący zamówienia dla firm paletowych i magazynów: głos i czat po polsku, stany magazynowe na żywo, rezerwacja, płatność, kod QR i odbiór w Paczkomacie Joker. Demo.">
 <meta name="theme-color" content="#050507">
+<meta name="color-scheme" content="dark">
+<link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800;900&display=swap" rel="stylesheet">
+<link rel="icon" href="icons/icon-192.png" sizes="192x192" type="image/png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="JOKERAl">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="JOKERAl Firma">
+<meta property="og:locale" content="pl_PL">
+<meta property="og:image" content="https://jokerthedon81.github.io/joker-firma-demo/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="JOKERAl Firma — klient zamawia, płaci i odbiera bez rozmowy z człowiekiem">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://jokerthedon81.github.io/joker-firma-demo/og.png">
+<link rel="preload" href="fonts/cormorant-garamond-latin-500-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="common.css">
+<title>JOKERAl Firma — klient zamawia, płaci i odbiera bez rozmowy z człowiekiem</title>
+<meta name="description" content="Automatyczny przyjmujący zamówienia dla firm paletowych i magazynów: głos i czat po polsku, stany na żywo, rezerwacja, płatność, bilet z kodem QR i odbiór w Paczkomacie Joker.">
+<meta property="og:title" content="JOKERAl Firma — klient zamawia, płaci i odbiera bez rozmowy z człowiekiem">
+<meta property="og:description" content="Automatyczny przyjmujący zamówienia dla firm paletowych i magazynów: głos i czat po polsku, stany na żywo, rezerwacja, płatność, bilet z kodem QR i odbiór w Paczkomacie Joker.">
+<meta property="og:url" content="https://jokerthedon81.github.io/joker-firma-demo/">
+<link rel="canonical" href="https://jokerthedon81.github.io/joker-firma-demo/">
+<!--/HEAD-->
 <style>
-.hero{position:relative;min-height:min(88vh,820px);display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:center;padding:20px 0 60px}
-#sky{position:absolute;inset:-80px -40vw 0;width:calc(100% + 80vw);height:calc(100% + 80px);z-index:-1;pointer-events:none}
-.eyebrow{display:inline-flex;gap:8px;align-items:center;font-size:13px;color:var(--purple2);border:1px solid rgba(192,132,252,.35);padding:6px 12px;border-radius:999px;margin-bottom:20px;background:rgba(10,8,16,.6)}
-.dot{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 10px var(--green);animation:blink 1.6s infinite}
-@keyframes blink{50%{opacity:.3}}
-h1{font-size:clamp(36px,6.2vw,76px);line-height:1.02;font-weight:900;letter-spacing:-.035em;margin-bottom:22px;color:#fff}
-h1 .grad{background:linear-gradient(100deg,#fff 5%,#c9ccd6 35%,var(--purple2) 70%,var(--purple));-webkit-background-clip:text;background-clip:text;color:transparent;background-size:200% 100%;animation:sh 6s ease-in-out infinite}
-@keyframes sh{50%{background-position:100% 0}}
-.lead{font-size:clamp(17px,2vw,20px);color:var(--muted);max-width:560px;margin-bottom:30px;font-weight:300}
-.lead b{color:var(--silver);font-weight:600}
-.btns{display:flex;gap:12px;flex-wrap:wrap}
-.btn.big{font-size:17px;padding:17px 28px;border-radius:16px}
-.btn.pulse{animation:gp 2.4s ease-in-out infinite}
-@keyframes gp{50%{box-shadow:0 10px 60px rgba(192,132,252,.8),inset 0 1px 0 rgba(255,255,255,.25)}}
-.pills{display:flex;gap:8px;flex-wrap:wrap;margin-top:24px}
-.pills span{font-size:13px;color:var(--muted);background:rgba(13,12,18,.8);border:1px solid var(--line);padding:6px 12px;border-radius:999px}
+.hero{position:relative;display:grid;grid-template-columns:minmax(0,1.08fr) minmax(0,.92fr);gap:56px;align-items:center;padding:72px 0 96px;min-height:min(86vh,860px)}
+.hero .rose{position:absolute;left:-260px;top:-140px;width:820px;height:820px;background:url(guilloche.svg) center/contain no-repeat;opacity:.07;z-index:-1;animation:turn 240s linear infinite;pointer-events:none}
+@keyframes turn{to{transform:rotate(360deg)}}
+.hero h1{font-size:clamp(46px,7.4vw,92px);line-height:.98;letter-spacing:-.02em;margin:18px 0 26px}
+.hero h1 em{font-style:italic;color:var(--champ);display:block}
+.hero h1 .sw{background:linear-gradient(100deg,#f5f5f7 40%,#fffaf0 50%,#f5f5f7 60%);background-size:300% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:sweep 9s cubic-bezier(.4,0,.2,1) infinite}
+@keyframes sweep{0%,60%{background-position:100% 0}100%{background-position:-50% 0}}
+.hero .lead b{color:var(--white);font-weight:500}
+.cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:34px}
+.start{overflow:hidden}
+.start::before{content:"";position:absolute;inset:0;border-radius:inherit;background:linear-gradient(100deg,transparent 30%,rgba(255,255,255,.75) 50%,transparent 70%);background-size:250% 100%;background-position:150% 0;mix-blend-mode:soft-light;pointer-events:none}
+.start:hover::before,.start.go::before{animation:ign .9s cubic-bezier(.3,0,.2,1)}
+@keyframes ign{to{background-position:-60% 0}}
+.meta{display:flex;gap:26px;flex-wrap:wrap;margin-top:40px;padding-top:22px;border-top:1px solid var(--hair)}
+.meta div{font-size:12.5px;color:var(--muted)}
+.meta b{display:block;font-family:var(--serif);font-size:28px;font-weight:500;color:var(--white);line-height:1.1}
 /* podgląd */
-.prev{border-radius:30px;border:1px solid #2b2540;background:linear-gradient(180deg,rgba(15,11,26,.92),rgba(7,6,11,.95));box-shadow:0 40px 100px rgba(0,0,0,.7),0 0 90px rgba(139,92,246,.28);padding:16px;min-height:470px;display:flex;flex-direction:column;gap:10px;position:relative;overflow:hidden}
-.prev .hd{display:flex;align-items:center;gap:10px;padding-bottom:10px;border-bottom:1px solid var(--line);font-size:14px;color:#fff;font-weight:700}
-.prev .hd i{width:34px;height:34px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff,#aeb2bd 40%,#4b4e5a);box-shadow:0 0 0 3px #1d1033}
-.prev .hd .on{font-weight:400;color:var(--green);font-size:12px;display:block}
-.prev .msg{max-width:90%}
-.qrmini{align-self:flex-start;display:flex;gap:12px;align-items:center;padding:12px;border-radius:16px;border:1px solid #3a2d63;background:#120e1e;animation:pop .3s}
-.qrmini .q{width:74px;height:74px;border-radius:8px;background:#fff;padding:5px;display:grid;grid-template-columns:repeat(9,1fr);gap:1px}
-.qrmini .q b{background:#111;border-radius:1px}
-.qrmini .q b.w{background:#fff}
-.typing{align-self:flex-start;display:flex;gap:4px;padding:12px 14px;border-radius:16px;background:#1c1730}
-.typing i{width:7px;height:7px;border-radius:50%;background:var(--purple2);animation:ty 1s infinite}
-.typing i:nth-child(2){animation-delay:.15s}.typing i:nth-child(3){animation-delay:.3s}
-@keyframes ty{50%{opacity:.25;transform:translateY(-3px)}}
-section.s{padding:60px 0}
-.s h2{font-size:clamp(28px,4vw,44px);letter-spacing:-.03em;color:#fff;margin-bottom:10px;font-weight:800}
-.s .sub{color:var(--muted);max-width:640px;margin-bottom:34px;font-size:17px}
-/* 7 kroków */
-.flow{display:grid;grid-template-columns:repeat(7,1fr);gap:12px;position:relative}
-.flow::before{content:"";position:absolute;top:34px;left:7%;right:7%;height:2px;background:linear-gradient(90deg,transparent,var(--purple),var(--purple2),var(--purple),transparent);opacity:.6}
-.flow::after{content:"";position:absolute;top:30px;left:7%;width:10px;height:10px;border-radius:50%;background:#fff;box-shadow:0 0 16px 4px var(--purple2);animation:run 5s linear infinite}
-@keyframes run{to{left:93%}}
-.step{text-align:center;position:relative;z-index:1}
-.step .ic{width:68px;height:68px;margin:0 auto 12px;border-radius:50%;display:grid;place-items:center;font-size:28px;background:radial-gradient(circle at 35% 30%,#2a1f47,#0d0a16);border:1px solid #4b3a7a;box-shadow:0 0 30px rgba(139,92,246,.3);transition:.3s}
-.step.lit .ic{border-color:var(--purple2);box-shadow:0 0 40px rgba(192,132,252,.8);transform:scale(1.08)}
-.step .n{font-size:11px;color:var(--purple2);font-weight:700;letter-spacing:.1em}
-.step h3{font-size:15px;color:#fff;margin:4px 0}
-.step p{font-size:13px;color:var(--muted)}
-.tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
-.tile{display:block;text-decoration:none;color:inherit;padding:22px;border-radius:22px;border:1px solid var(--line);background:linear-gradient(180deg,#13101c,#09080d);transition:.25s;position:relative;overflow:hidden}
-.tile:hover{transform:translateY(-4px);border-color:#5b3fa0;box-shadow:0 20px 50px rgba(139,92,246,.25)}
-.tile .e{font-size:30px}
-.tile h3{color:#fff;font-size:18px;margin:10px 0 6px}
+.prev{position:relative;border-radius:30px;padding:18px;min-height:520px;display:flex;flex-direction:column;gap:6px;overflow:hidden;box-shadow:0 50px 120px rgba(0,0,0,.7)}
+.prev .hd{display:flex;align-items:center;gap:12px;padding-bottom:14px;margin-bottom:6px;border-bottom:1px solid var(--hair);font-size:14px;color:var(--white);font-weight:600}
+.prev .hd small{display:block;font-weight:400;color:var(--muted);font-size:12px}
+.prev .msg{max-width:88%}
+.mini{flex:none;align-self:stretch;border-radius:18px;border:1px solid var(--hairc);background:linear-gradient(180deg,#141418,#0c0c0f);padding:14px;display:flex;gap:14px;align-items:center;margin-top:6px;animation:rise .6s cubic-bezier(.16,1,.3,1) both;position:relative;overflow:hidden}
+.mini .q{width:78px;height:78px;border-radius:10px;background:#f7f3ea;padding:6px;flex:none;display:grid;grid-template-columns:repeat(9,1fr);gap:1px}
+.mini .q i{background:#0b0b0f;border-radius:1px}.mini .q i.w{background:transparent}
+.mini .no{font-family:var(--serif);font-size:30px;color:var(--white);line-height:1}
+/* sekcje */
+section.s{padding:var(--s8) 0 0}
+.flow{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:0;position:relative;margin-top:40px;border-top:1px solid var(--hair2)}
+.step{position:relative;padding:26px 14px 0 0}
+.step::before{content:"";position:absolute;top:-4px;left:0;width:7px;height:7px;border-radius:50%;background:var(--bg);box-shadow:0 0 0 1px var(--champ3);transition:background .6s,box-shadow .6s}
+.step.lit::before{background:var(--champ);box-shadow:0 0 0 1px var(--champ),0 0 14px rgba(217,201,163,.7)}
+.step .n{font-family:var(--serif);font-style:italic;font-size:15px;color:var(--champ3)}
+.step .ic{width:22px;height:22px;color:var(--champ);margin:10px 0 12px}
+.step h3{font-family:var(--sans);font-size:15px;font-weight:600;margin-bottom:6px}
+.step p{font-size:13.5px;color:var(--muted);line-height:1.5}
+.tiles{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:40px}
+.tile{display:block;text-decoration:none;color:inherit;padding:24px;border-radius:22px;border:1px solid var(--hair);background:linear-gradient(180deg,rgba(22,22,27,.7),rgba(12,12,15,.7));transition:transform .25s cubic-bezier(.2,.8,.2,1),border-color .25s,box-shadow .25s;position:relative;overflow:hidden}
+.tile:hover{transform:translateY(-3px);border-color:var(--hairc);box-shadow:0 24px 60px rgba(0,0,0,.5)}
+.tile .ic{width:24px;height:24px;color:var(--champ)}
+.tile h3{font-family:var(--serif);font-size:26px;margin:18px 0 6px}
 .tile p{color:var(--muted);font-size:14px}
-.tile .go{margin-top:14px;font-size:13.5px;color:var(--purple2);font-weight:600}
-.feats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
-.feat{padding:20px;border-radius:18px;border:1px solid var(--line);background:#0b0a10}
-.feat b{color:#fff;display:block;margin-bottom:4px}
-.feat span{color:var(--muted);font-size:14px}
-.cta{text-align:center;padding:50px 20px;border-radius:30px;border:1px solid #3a2d63;background:radial-gradient(circle at 50% 0,rgba(139,92,246,.3),transparent 70%),#0a0810}
-@media (max-width:960px){.hero{grid-template-columns:1fr;min-height:0;padding-top:10px}.flow{grid-template-columns:1fr 1fr;gap:18px}.flow::before,.flow::after{display:none}.tiles{grid-template-columns:1fr 1fr}.feats{grid-template-columns:1fr}}
-@media (max-width:520px){.tiles{grid-template-columns:1fr}.prev{min-height:420px}.flow{grid-template-columns:1fr}.step{display:grid;grid-template-columns:60px 1fr;text-align:left;gap:12px;align-items:center}.step .ic{margin:0;width:56px;height:56px;font-size:24px}}
+.tile .go{margin-top:18px;font-size:13px;color:var(--champ);display:flex;align-items:center;gap:6px}
+.tile .go .ic{width:15px;height:15px;transition:transform .2s}
+.tile:hover .go .ic{transform:translateX(3px)}
+/* dla firm */
+.biz{border-radius:32px;border:1px solid var(--hair);background:linear-gradient(180deg,rgba(18,18,22,.8),rgba(8,8,10,.8));padding:clamp(28px,5vw,64px);position:relative;overflow:hidden;margin-top:40px}
+.biz::before{content:"";position:absolute;right:-200px;top:-200px;width:620px;height:620px;background:url(guilloche.svg) center/contain no-repeat;opacity:.06;pointer-events:none}
+.biz .stripe{position:absolute;left:clamp(28px,5vw,64px);top:0;width:96px}
+.cols3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px;margin-top:36px}
+.cols3 h3{font-family:var(--serif);font-size:26px;margin:12px 0 8px}
+.cols3 p,.cols3 li{color:var(--muted);font-size:14.5px}
+.cols3 ul{list-style:none}
+.cols3 li{padding:7px 0;border-bottom:1px solid var(--hair);display:flex;gap:10px;align-items:flex-start}
+.cols3 li .ic{width:17px;height:17px;color:var(--champ);margin-top:3px}
+.hr{height:1px;background:linear-gradient(90deg,transparent,var(--hair2),transparent);margin:48px 0}
+.roi{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:32px;align-items:center}
+.rng{margin-bottom:16px}
+.rng label{display:flex;justify-content:space-between;font-size:13.5px;color:var(--muted);margin-bottom:6px}
+.rng label b{color:var(--white);font-weight:600;font-variant-numeric:lining-nums tabular-nums}
+input[type=range]{width:100%;min-height:24px;padding:0;background:transparent;border:0;box-shadow:none}
+input[type=range]::-webkit-slider-runnable-track{height:2px;background:linear-gradient(90deg,var(--champ) var(--p,50%),var(--hair2) var(--p,50%));border-radius:2px}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;margin-top:-10px;background:var(--metal);box-shadow:0 2px 8px rgba(0,0,0,.6),inset 0 1px 0 #fff}
+input[type=range]::-moz-range-track{height:2px;background:var(--hair2)}
+input[type=range]::-moz-range-progress{height:2px;background:var(--champ)}
+input[type=range]::-moz-range-thumb{width:20px;height:20px;border:0;border-radius:50%;background:var(--champ)}
+.roiout{border-radius:24px;border:1px solid var(--hairc);padding:28px;text-align:center;background:rgba(0,0,0,.25)}
+.roiout .big{font-family:var(--serif);font-size:clamp(48px,7vw,72px);color:var(--champ2);line-height:1;font-variant-numeric:lining-nums tabular-nums}
+.roiout .sub2{display:flex;justify-content:center;gap:28px;margin-top:18px;flex-wrap:wrap}
+.roiout .sub2 b{display:block;font-family:var(--serif);font-size:28px;color:var(--white);font-weight:500}
+.roiout .sub2 span{font-size:12px;color:var(--muted)}
+.price{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:24px;align-items:center}
+.price .amt{font-family:var(--serif);font-size:clamp(40px,6vw,64px);color:var(--white);line-height:1}
+.note{font-size:12px;color:var(--warn);margin-top:8px}
+@media (max-width:980px){.hero{grid-template-columns:minmax(0,1fr);padding:40px 0 64px;min-height:0;gap:40px}.flow{grid-template-columns:minmax(0,1fr);border-top:0;border-left:1px solid var(--hair2);margin-left:4px}.step{padding:0 0 26px 26px}.step::before{top:6px;left:-4px}.step .ic{display:none}.tiles{grid-template-columns:repeat(2,minmax(0,1fr))}.cols3,.roi{grid-template-columns:minmax(0,1fr)}.price{grid-template-columns:minmax(0,1fr)}}
+@media (max-width:560px){.tiles{grid-template-columns:minmax(0,1fr)}.prev{min-height:470px;padding:14px}.hero h1{font-size:clamp(44px,13vw,60px)}.meta{gap:18px}}
 </style>
 </head>
 <body>
-<div class="demo-banner">Wersja demonstracyjna · działa w przeglądarce · płatności testowe</div>
-<div class="wrap" id="navw"></div>
-<div class="wrap">
+<div id="navw"></div>
+<main class="wrap">
   <header class="hero">
-    <canvas id="sky"></canvas>
+    <div class="rose" aria-hidden="true"></div>
     <div>
-      <div class="eyebrow"><span class="dot"></span> JOKERA<span class="l">l</span> Firma · automatyczne zamówienia 24/7</div>
-      <h1><span class="grad">Klient zamawia, płaci i odbiera</span> — bez rozmowy z człowiekiem.</h1>
-      <p class="lead">Klient mówi albo pisze <b>„potrzebuję 10 palet euro na jutro na 9:00”</b>. JOKERA<span class="l">l</span> sprawdza stan magazynu, rezerwuje towar, przyjmuje płatność i wydaje kod QR, który otwiera <b>Paczkomat Joker</b>.</p>
-      <div class="btns"><a class="btn primary big pulse" href="zamowienie.html">🎙️ Zamów palety głosem</a><a class="btn ghost big" href="panel.html">Panel firmy</a></div>
-      <div class="pills"><span>🇵🇱 po polsku, głos + czat</span><span>📦 stany na żywo</span><span>⏱️ rezerwacja 30 min</span><span>🔳 kod QR + paczkomat</span></div>
+      <span class="label">Automatyczne zamówienia · 24/7</span>
+      <h1><span class="sw">Klient zamawia, płaci i odbiera</span><em>— bez rozmowy z człowiekiem.</em></h1>
+      <p class="lead">Klient mówi albo pisze <b>„10 palet euro na jutro na 9:00”</b>. JOKERA<span class="l">l</span> sprawdza magazyn, rezerwuje towar, przyjmuje płatność i wydaje bilet z kodem QR, który otwiera <b>Paczkomat Joker</b>.</p>
+      <div class="cta"><button class="btn primary lg start" id="pk"></button><a class="btn ghost lg" href="zamowienie.html" id="try"></a></div>
+      <div class="meta"><div><b>24/7</b>przyjmuje zamówienia</div><div><b>0</b>telefonów do obsłużenia</div><div><b>30 min</b>rezerwacji z zegarem</div></div>
     </div>
-    <div class="prev" id="prev"><div class="hd"><i></i><div>JOKERA<span class="l">l</span> Firma<span class="on">● odpowiada od razu</span></div></div></div>
+    <div class="prev glass" id="prev" aria-label="Podgląd rozmowy (animacja)"><div class="hd"><span class="mono" aria-hidden="true">J</span><div>Asystent zamówień<small>odpowiada od razu</small></div><span class="badge live" style="margin-left:auto">online</span></div></div>
   </header>
 
-  <section class="s" id="jak">
-    <h2>7 kroków. Zero telefonów.</h2>
-    <p class="sub">Od zapytania klienta do wydania towaru wszystko dzieje się automatycznie. Człowiek wchodzi do gry tylko przy dużych i nietypowych zamówieniach.</p>
-    <div class="flow" id="flow">
-      <div class="step"><div class="ic">🎙️</div><div><div class="n">KROK 1</div><h3>Zapytanie</h3><p>Klient mówi lub pisze, czego potrzebuje.</p></div></div>
-      <div class="step"><div class="ic">🧩</div><div><div class="n">KROK 2</div><h3>Zrozumienie</h3><p>Produkt, ilość, dzień i godzina. Brakuje czegoś? Dopyta.</p></div></div>
-      <div class="step"><div class="ic">📦</div><div><div class="n">KROK 3</div><h3>Magazyn</h3><p>Dostępne = stan − aktywne rezerwacje.</p></div></div>
-      <div class="step"><div class="ic">🔒</div><div><div class="n">KROK 4</div><h3>Rezerwacja</h3><p>„Tak, nie ma problemu” — towar trzymany 30 minut.</p></div></div>
-      <div class="step"><div class="ic">💳</div><div><div class="n">KROK 5</div><h3>Płatność</h3><p>BLIK lub karta. Bez wpłaty rezerwacja wygasa.</p></div></div>
-      <div class="step"><div class="ic">🔳</div><div><div class="n">KROK 6</div><h3>Potwierdzenie</h3><p>Numer zamówienia, godzina odbioru i kod QR.</p></div></div>
-      <div class="step"><div class="ic">🚚</div><div><div class="n">KROK 7</div><h3>Odbiór</h3><p>Skan w Paczkomacie Joker, skrytka i rampa się otwierają.</p></div></div>
-    </div>
+  <section class="s reveal" id="jak">
+    <span class="label">Jak to działa</span>
+    <h2 class="h-sec">Siedem kroków. <em>Zero telefonów.</em></h2>
+    <p class="lead">Od zapytania do wydania towaru wszystko dzieje się samo. Człowiek wchodzi do gry tylko przy dużych i nietypowych zamówieniach.</p>
+    <div class="flow" id="flow"></div>
   </section>
 
-  <section class="s">
-    <h2>Zobacz to na żywo</h2>
-    <p class="sub">Otwórz stronę klienta i panel firmy w dwóch kartach, a zobaczysz, jak stan magazynu zmienia się w czasie rzeczywistym.</p>
-    <div class="tiles">
-      <a class="tile" href="zamowienie.html"><div class="e">🗣️</div><h3>Zamówienie</h3><p>Czat i głos po polsku. Rezerwacja z odliczaniem, płatność testowa, kod QR.</p><div class="go">Zamów palety →</div></a>
-      <a class="tile" href="odbior.html"><div class="e">🔐</div><h3>Paczkomat Joker</h3><p>Skan QR kamerą lub kod z klawiatury. Drzwiczki się otwierają, stan spada.</p><div class="go">Odbierz →</div></a>
-      <a class="tile" href="panel.html"><div class="e">📊</div><h3>Panel firmy</h3><p>Stany, rezerwacje, płatności, wydania, akceptacja dużych zamówień.</p><div class="go">Otwórz panel →</div></a>
-      <a class="tile" href="rodzina.html"><div class="e">👨‍👩‍👦</div><h3>JOKERA<span class="l">l</span> Rodzina</h3><p>Dzieci piszą do bota, mama dostaje jedną krótką wiadomość z przyciskami.</p><div class="go">Zobacz demo →</div></a>
-    </div>
+  <section class="s reveal">
+    <span class="label">Zobacz na żywo</span>
+    <h2 class="h-sec">Cztery ekrany, <em>jeden proces.</em></h2>
+    <p class="lead">Otwórz stronę klienta i panel firmy w dwóch kartach — stan magazynu zmienia się w czasie rzeczywistym.</p>
+    <div class="tiles" id="tiles"></div>
   </section>
 
-  <section class="s">
-    <h2>Co dostaje firma</h2>
-    <p class="sub">Ten sam silnik obsłuży hurtownię, skład budowlany, wypożyczalnię czy magazyn opału.</p>
-    <div class="feats">
-      <div class="feat"><b>Zamówienia całą dobę</b><span>Klient nie czeka na oddzwonienie. Bot odpowiada w sekundę, także w nocy i w weekend.</span></div>
-      <div class="feat"><b>Koniec z „nie mamy na stanie”</b><span>Gdy brakuje towaru, bot proponuje dostępną ilość albo termin po dostawie.</span></div>
-      <div class="feat"><b>Pieniądze przed wydaniem</b><span>Towar wychodzi tylko po potwierdzonej wpłacie z systemu płatności, nigdy na podstawie zrzutu ekranu.</span></div>
-      <div class="feat"><b>Duże zamówienia do człowieka</b><span>Powyżej 100 sztuk zamówienie trafia do akceptacji. Jedno kliknięcie w panelu.</span></div>
-      <div class="feat"><b>Wydanie bez okienka</b><span>Kod QR otwiera skrytkę z dokumentem WZ i bramę rampy. Stan magazynu aktualizuje się sam.</span></div>
-      <div class="feat"><b>Podłączenie do Twojego systemu</b><span>W wersji produkcyjnej: arkusz, Subiekt, WF-Mag albo API. Płatności: Stripe, BLIK, Przelewy24.</span></div>
+  <section class="s reveal" id="dla-firm" aria-labelledby="df-h">
+    <span class="label">Dla firm</span>
+    <h2 class="h-sec" id="df-h">Magazyn, który <em>sam przyjmuje zamówienia.</em></h2>
+    <div class="biz">
+      <span class="stripe" aria-hidden="true"></span>
+      <div class="cols3">
+        <div><span class="label plain">Problem</span><h3>Telefon dzwoni, magazyn stoi.</h3><p>Każde „ile macie palet na jutro?” to kilka minut rozmowy, sprawdzanie stanów i notowanie. Po godzinach nikt nie odbiera, a klient dzwoni do konkurencji. Pomyłki w ilościach wychodzą dopiero na rampie.</p></div>
+        <div><span class="label plain">Rozwiązanie</span><h3>Zamówienie bez rozmowy.</h3><ul id="howl"></ul></div>
+        <div><span class="label plain">Korzyści</span><h3>Spokój i porządek.</h3><ul id="benl"></ul></div>
+      </div>
+      <div class="hr"></div>
+      <div class="roi">
+        <div><span class="label plain">Przykładowy zwrot</span><h3 class="serif" style="font-size:34px;margin:10px 0 18px">Ile czasu odzyskasz?</h3><div id="rngs"></div><p class="note">Przykładowe liczby do podstawienia danych firmy. To nie jest oferta ani gwarancja wyniku.</p></div>
+        <div class="roiout"><span class="label plain">Szacunkowo miesięcznie</span><div class="big" id="roiZl">—</div><div class="sub2"><div><b id="roiH">—</b><span>godzin pracy</span></div><div><b id="roiC">—</b><span>rozmów mniej</span></div></div></div>
+      </div>
+      <div class="hr"></div>
+      <div class="price">
+        <div><span class="label plain">Cena</span><div class="amt" id="price"></div><p class="note">Przykładowa cena — do ustalenia indywidualnie. Wdrożenie z Twoim magazynem i płatnościami wyceniamy osobno.</p></div>
+        <div class="cta" style="margin:0"><a class="btn primary lg start" id="mail"></a><a class="btn ghost lg" id="tel"></a></div>
+      </div>
     </div>
   </section>
-
-  <section class="s"><div class="cta"><h2>Sprawdź sam w 60 sekund</h2><p class="sub" style="margin:0 auto 24px">Powiedz: „potrzebuję 10 palet euro na jutro na 9:00”.</p><a class="btn primary big pulse" href="zamowienie.html">🎙️ Zacznij zamówienie</a></div></section>
-</div>
-<div class="wrap" id="footw"></div>
+</main>
+<div id="footw"></div>
 <script src="shared.js"></script>
 <script>
 (() => {
-const $ = JK.$;
-$('navw').innerHTML = JK.nav('index.html'); $('footw').innerHTML = JK.foot();
-JK.fireworks($('sky'), { every: 1100 });
-/* animowany podgląd rozmowy */
+const $ = JK.$, I = JK.icon, C = JK.CONFIG;
+JK.mount('index.html');
+$('pk').innerHTML = I('play') + 'Pokaz automatyczny'; $('try').innerHTML = I('mic') + 'Zamów palety głosem';
+$('pk').onclick = () => { $('pk').classList.add('go'); setTimeout(() => JK.pokaz.start(), 650); };
+setInterval(() => { const b = $('pk'); b.classList.remove('go'); void b.offsetWidth; if (!JK.rm) b.classList.add('go'); }, 7000);
+const STEPS = [['mic', 'Zapytanie', 'Klient mówi lub pisze, czego potrzebuje.'], ['search', 'Zrozumienie', 'Produkt, ilość, dzień, godzina. Czegoś brak? Dopyta.'], ['box', 'Magazyn', 'Dostępne = stan − aktywne rezerwacje.'], ['clock', 'Rezerwacja', '„Tak, nie ma problemu” — towar trzymany 30 minut.'], ['coin', 'Płatność', 'BLIK lub karta. Bez wpłaty rezerwacja wygasa.'], ['qr', 'Bilet', 'Numer zamówienia, okno odbioru, kod QR.'], ['truck', 'Odbiór', 'Skan w Paczkomacie Joker otwiera skrytkę i rampę.']];
+const RN = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII'];
+$('flow').innerHTML = STEPS.map(([ic, h, p], i) => `<div class="step"><span class="n">${RN[i]}</span>${I(ic)}<h3>${h}</h3><p>${p}</p></div>`).join('');
+const TL = [['zamowienie.html', 'mic', 'Zamówienie', 'Czat i głos po polsku. Rezerwacja z zegarem, płatność testowa, bilet z kodem QR.', 'Zamów palety'], ['odbior.html', 'lock', 'Paczkomat Joker', 'Skan QR kamerą lub kod z klawiatury. Skrytka się otwiera, stan spada.', 'Odbierz'], ['panel.html', 'chart', 'Panel firmy', 'Wskaźniki, obrotomierze stanów, wykres dnia, filtry i eksport CSV.', 'Otwórz panel'], ['rodzina.html', 'users', 'JOKERAl Rodzina', 'Dzieci piszą do bota, mama dostaje jedną krótką wiadomość z przyciskami.', 'Zobacz demo']];
+$('tiles').innerHTML = TL.map(([h, ic, t, p, go]) => `<a class="tile" href="${h}">${I(ic)}<h3>${JK.brand(t)}</h3><p>${p}</p><div class="go">${go}${I('arrow')}</div></a>`).join('');
+$('howl').innerHTML = ['Klient zamawia głosem lub czatem, o każdej porze', 'Bot sprawdza stan i rezerwuje towar', 'Płatność online przed wydaniem', 'Bilet z kodem QR otwiera skrytkę i rampę', 'Duże zamówienia zatwierdza człowiek'].map(t => `<li>${I('check')}<span>${t}</span></li>`).join('');
+$('benl').innerHTML = [['clock', '24/7 — także noce i weekendy'], ['phone', 'Zero telefonów do odbierania'], ['shield', 'Mniej pomyłek: ilości i terminy zapisane od razu'], ['coin', 'Pieniądze przed wydaniem towaru'], ['chart', 'Pełny raport i eksport do CSV']].map(([ic, t]) => `<li>${I(ic)}<span>${t}</span></li>`).join('');
+const R = [['calls', 'Telefonów z zamówieniami dziennie', 10, 150, 40, ''], ['mins', 'Minut na jedną rozmowę', 1, 15, 4, ' min'], ['rate', 'Koszt godziny pracy', 25, 120, 45, ' zł'], ['days', 'Dni pracy w miesiącu', 15, 30, 22, ''], ['pct', 'Zamówień obsłużonych automatycznie', 20, 100, 70, '%']];
+$('rngs').innerHTML = R.map(([id, l, mn, mx, v, u]) => `<div class="rng"><label for="r-${id}">${l}<b id="v-${id}">${v}${u}</b></label><input type="range" id="r-${id}" min="${mn}" max="${mx}" value="${v}"></div>`).join('');
+const fmt = n => Math.round(n).toLocaleString('pl-PL');
+function roi() { const g = id => +$('r-' + id).value; R.forEach(([id, , mn, mx, , u]) => { const el = $('r-' + id); el.style.setProperty('--p', (100 * (el.value - mn) / (mx - mn)) + '%'); $('v-' + id).textContent = el.value + u; });
+  const calls = g('calls') * g('days') * g('pct') / 100, h = calls * g('mins') / 60; $('roiZl').textContent = fmt(h * g('rate')) + ' zł'; $('roiH').textContent = fmt(h); $('roiC').textContent = fmt(calls); }
+$('rngs').oninput = roi; roi();
+$('price').textContent = C.PRICE_LABEL;
+$('mail').href = 'mailto:' + C.CONTACT_EMAIL + '?subject=' + encodeURIComponent('Pokaz JOKERAl Firma'); $('mail').innerHTML = I('mail') + 'Umów pokaz';
+$('tel').href = 'tel:' + C.CONTACT_TEL; $('tel').innerHTML = I('phone') + 'Zadzwoń';
+/* podgląd */
 const P = $('prev');
-const qr = () => { let h = ''; const pat = [1,1,1,0,1,0,1,1,1, 1,0,1,0,0,1,1,0,1, 1,1,1,0,1,0,1,1,1, 0,0,1,1,0,1,0,1,0, 1,0,0,1,1,0,1,1,0, 0,1,1,0,1,1,0,0,1, 1,1,1,0,0,1,0,1,0, 1,0,1,0,1,0,1,1,1, 1,1,1,0,1,1,0,0,1]; pat.forEach(b => h += `<b class="${b ? '' : 'w'}"></b>`); return h; };
-const script = [
-  ['k', 'Potrzebuję 10 palet euro na jutro na 9:00'],
-  ['a', 'Tak, nie ma problemu! 10 × Paleta euro EPAL na jutro, na 09:00. Razem 450,00 zł. Zarezerwowałem towar na 30 minut.'],
-  ['k', '💳 BLIK ••• ••• — zapłacone'],
-  ['a', 'Płatność przyjęta! Zamówienie JF-1001 potwierdzone. Oto Twój kod odbioru:'],
-  ['qr', '']
-];
+const pat = [1,1,1,0,1,0,1,1,1, 1,0,1,0,0,1,1,0,1, 1,1,1,0,1,0,1,1,1, 0,0,1,1,0,1,0,1,0, 1,0,0,1,1,0,1,1,0, 0,1,1,0,1,1,0,0,1, 1,1,1,0,0,1,0,1,0, 1,0,1,0,1,0,1,1,1, 1,1,1,0,1,1,0,0,1];
+const script = [['k', 'Potrzebuję 10 palet euro na jutro na 9:00'], ['a', 'Tak, nie ma problemu. 10 × Paleta euro EPAL na jutro, 09:00. Razem 450,00 zł. Towar zarezerwowany na 30 minut.'], ['k', 'BLIK ••• ••• — zapłacone'], ['a', 'Płatność przyjęta. Oto bilet odbioru:'], ['t', '']];
 async function play() {
-  while (true) {
-    P.querySelectorAll('.msg,.qrmini,.typing').forEach(e => e.remove());
-    for (const [w, t] of script) {
-      if (w !== 'k') { const ty = document.createElement('div'); ty.className = 'typing'; ty.innerHTML = '<i></i><i></i><i></i>'; P.appendChild(ty); await new Promise(r => setTimeout(r, 900)); ty.remove(); }
-      else await new Promise(r => setTimeout(r, 700));
-      if (w === 'qr') { P.insertAdjacentHTML('beforeend', `<div class="qrmini"><div class="q">${qr()}</div><div><b style="color:#fff">482 913</b><div class="muted" style="font-size:12px">Paczkomat Joker · skrytka 7</div></div></div>`); }
-      else P.insertAdjacentHTML('beforeend', `<div class="msg ${w}"><small>${w === 'k' ? 'Klient' : 'JOKERA<span class="l">l</span>'}</small><span>${JK.brand(t)}</span></div>`);
-    }
-    await new Promise(r => setTimeout(r, 4200));
-  }
+  if (JK.rm) { for (const [w, t] of script) add(w, t); return; }
+  while (true) { P.querySelectorAll('.msg,.mini,.typing').forEach(e => e.remove());
+    for (const [w, t] of script) { if (w !== 'k') await JK.typing(P, 950); else await JK.sleep(900); add(w, t); }
+    await JK.sleep(5200); }
 }
+function add(w, t) { if (w === 't') { const m = document.createElement('div'); m.className = 'mini'; m.innerHTML = `<div class="q">${pat.map(b => `<i class="${b ? '' : 'w'}"></i>`).join('')}</div><div><span class="label plain">Bilet odbioru</span><div class="no">JF-1001</div><div class="muted" style="font-size:13px">Rampa 2 · skrytka 7 · 09:00–10:00</div></div>`; P.appendChild(m); setTimeout(() => JK.sheen(m), 200); }
+  else P.insertAdjacentHTML('beforeend', `<div class="msg ${w}"><small>${w === 'k' ? 'Klient' : 'Asystent'}</small><span>${JK.brand(t)}</span></div>`); }
 play();
-/* podświetlanie kroków */
 const steps = [...document.querySelectorAll('.step')]; let i = 0;
-setInterval(() => { steps.forEach((s, j) => s.classList.toggle('lit', j === i)); i = (i + 1) % steps.length; }, 720);
+if (!JK.rm) setInterval(() => { steps.forEach((s, j) => s.classList.toggle('lit', j === i)); i = (i + 1) % steps.length; }, 1100);
+JK.reveal();
+if (JK.pokaz.on) JK.pokaz.stop(true);
 })();
 </script>
 </body>

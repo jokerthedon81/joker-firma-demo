@@ -1,248 +1,370 @@
 <!DOCTYPE html>
 <html lang="pl">
 <head>
+<!--META Zamów palety — JOKERAl Firma | Zamów palety głosem lub czatem: sprawdzenie stanu, rezerwacja 30 minut, płatność i bilet z kodem QR. Wersja demonstracyjna.-->
+<!--HEAD-->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Zamów palety — JOKERAl Firma (demo)</title>
 <meta name="theme-color" content="#050507">
+<meta name="color-scheme" content="dark">
+<link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+<link rel="icon" href="icons/icon-192.png" sizes="192x192" type="image/png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="JOKERAl">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="JOKERAl Firma">
+<meta property="og:locale" content="pl_PL">
+<meta property="og:image" content="https://jokerthedon81.github.io/joker-firma-demo/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="JOKERAl Firma — klient zamawia, płaci i odbiera bez rozmowy z człowiekiem">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://jokerthedon81.github.io/joker-firma-demo/og.png">
+<link rel="preload" href="fonts/cormorant-garamond-latin-500-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="common.css">
+<title>Zamów palety — JOKERAl Firma</title>
+<meta name="description" content="Zamów palety głosem lub czatem: sprawdzenie stanu, rezerwacja 30 minut, płatność i bilet z kodem QR. Wersja demonstracyjna.">
+<meta property="og:title" content="Zamów palety — JOKERAl Firma">
+<meta property="og:description" content="Zamów palety głosem lub czatem: sprawdzenie stanu, rezerwacja 30 minut, płatność i bilet z kodem QR. Wersja demonstracyjna.">
+<meta property="og:url" content="https://jokerthedon81.github.io/joker-firma-demo/zamowienie.html">
+<link rel="canonical" href="https://jokerthedon81.github.io/joker-firma-demo/zamowienie.html">
+<!--/HEAD-->
 <style>
-.layout{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,.75fr);gap:24px;align-items:start;padding:6px 0 30px}
-.phone{border-radius:28px;border:1px solid #2b2540;background:linear-gradient(180deg,#0f0b1a,#07060b);box-shadow:0 30px 90px rgba(0,0,0,.65),0 0 70px rgba(139,92,246,.18);height:min(78vh,760px);display:flex;flex-direction:column;overflow:hidden}
-.phead{display:flex;align-items:center;gap:12px;padding:14px 16px;border-bottom:1px solid var(--line);background:rgba(10,8,16,.85)}
-.av{width:44px;height:44px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff,#aeb2bd 40%,#4b4e5a);box-shadow:0 0 0 3px #1d1033,0 0 18px rgba(192,132,252,.45);flex:none;position:relative}
-.speaking .av::after{content:"";position:absolute;inset:-7px;border-radius:50%;border:2px solid var(--purple2);animation:ring 1s infinite}
-@keyframes ring{from{opacity:1;transform:scale(.9)}to{opacity:0;transform:scale(1.35)}}
-.phead h2{font-size:16px;font-weight:700;color:#fff}
-.phead .st{font-size:12.5px;color:var(--green)}
-.phead .tools{margin-left:auto;display:flex;gap:6px}
-.icon{width:38px;height:38px;border-radius:12px;border:1px solid var(--line);background:#0c0a12;color:var(--silver);cursor:pointer;font-size:16px}
-.icon.on{border-color:var(--purple);background:rgba(139,92,246,.18)}
-/* karty w czacie */
-.oc{flex:none;align-self:stretch;border-radius:20px;padding:16px;border:1px solid #3a2d63;background:linear-gradient(160deg,#171127,#0b0912);animation:pop .3s ease-out;position:relative;overflow:hidden}
-.oc h3{font-size:15px;color:#fff;margin-bottom:6px;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
-.oc .row{display:flex;justify-content:space-between;gap:10px;font-size:14px;padding:3px 0;color:var(--muted)}
-.oc .row b{color:var(--silver);font-weight:600;text-align:right}
-.oc .tot{font-size:22px;font-weight:800;color:#fff}
-.cd{display:flex;align-items:center;gap:12px;margin:10px 0}
-.cd .t{font:800 26px ui-monospace,Menlo,monospace;color:var(--purple2);min-width:88px}
-.cd .bar{flex:1;height:8px;border-radius:9px;background:#1e1a2b;overflow:hidden}
-.cd .bar i{display:block;height:100%;background:linear-gradient(90deg,var(--purple2),var(--purple));transition:width 1s linear}
-.cd.low .t{color:#f87171}.cd.low .bar i{background:linear-gradient(90deg,#f87171,#b91c1c)}
-.paytabs{display:flex;gap:6px;margin:8px 0}
-.paytabs button{flex:1;padding:9px;border-radius:10px;border:1px solid var(--line);background:#0b0a10;color:var(--muted);font:600 13px Inter,sans-serif;cursor:pointer}
-.paytabs button.on{color:#fff;border-color:var(--purple);background:rgba(139,92,246,.18)}
-.blik{display:flex;gap:8px;align-items:center}
-.blik input{flex:1;font:700 22px ui-monospace,Menlo,monospace;letter-spacing:.35em;text-align:center;min-width:0;padding:9px}
-.testnote{font-size:12px;color:#fde68a;background:rgba(251,191,36,.08);border:1px dashed rgba(251,191,36,.45);border-radius:10px;padding:7px 10px;margin:8px 0}
-.acts{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
-.linkbtn{background:none;border:0;color:var(--muted);font-size:12.5px;cursor:pointer;text-decoration:underline}
-.proc{display:flex;align-items:center;gap:10px;font-size:14px;color:#fff;padding:10px 0}
-.spin{width:22px;height:22px;border-radius:50%;border:3px solid #3b2d63;border-top-color:var(--purple2);animation:sp .8s linear infinite}
-@keyframes sp{to{transform:rotate(360deg)}}
-.conf{text-align:center}
-.conf .ok{width:56px;height:56px;border-radius:50%;margin:0 auto 8px;background:linear-gradient(135deg,#6ee7b7,#10b981);display:grid;place-items:center;font-size:28px;color:#04140d;box-shadow:0 0 40px rgba(16,185,129,.5);animation:okp .6s cubic-bezier(.2,1.6,.4,1)}
-@keyframes okp{from{transform:scale(0)}to{transform:scale(1)}}
-.qrbox{background:#fff;border-radius:18px;padding:12px;width:220px;max-width:100%;margin:12px auto;box-shadow:0 0 0 4px #2a1a4a,0 0 50px rgba(192,132,252,.55)}
-.qrbox img,.qrbox svg{display:block;width:100%;height:auto}
-.code{font:800 30px ui-monospace,Menlo,monospace;letter-spacing:.18em;color:#fff}
-.side .card{margin-bottom:16px}
-.side h3{font-size:15px;color:#fff;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center}
-.stock{display:grid;gap:8px}
-.sitem{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:10px 12px;border-radius:14px;background:#0b0a11;border:1px solid var(--line);font-size:14px}
-.sitem b{color:#fff}
-.sitem .n{font:800 18px Inter;color:var(--purple2)}
-.sitem .n.low{color:#f87171}
-.sitem.flash{animation:fl 1s}
-@keyframes fl{30%{border-color:var(--purple2);box-shadow:0 0 20px rgba(192,132,252,.5)}}
-.how li{font-size:13.5px;color:var(--muted);margin:0 0 6px 18px}
-.support{font-size:12.5px;color:var(--muted)}
-.support .w{color:#fde68a}
-#fx{position:fixed;inset:0;pointer-events:none;z-index:70;width:100%;height:100%}
-@media (max-width:900px){.layout{grid-template-columns:minmax(0,1fr)}.phone{height:76vh;min-height:520px}}
+.order{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,.7fr);gap:var(--s5);align-items:start;padding:var(--s5) 0 var(--s6)}
+.phone{border-radius:var(--r-xl);border:1px solid var(--hair2);background:linear-gradient(180deg,rgba(16,16,19,.9),rgba(8,8,10,.95));box-shadow:0 40px 100px rgba(0,0,0,.65);height:min(80vh,780px);display:flex;flex-direction:column;overflow:hidden;position:relative}
+.phead{display:flex;align-items:center;gap:12px;padding:14px 16px 12px;position:relative}
+.phead::after{content:"";position:absolute;left:16px;right:16px;bottom:0;height:1px;background:var(--hair)}
+.av{position:relative;flex:none}
+.av .mono{width:40px;height:40px;font-size:25px}
+.av::after{content:"";position:absolute;right:-1px;bottom:-1px;width:10px;height:10px;border-radius:50%;background:var(--ok);box-shadow:0 0 0 2px #0e0e11}
+.speaking .av .mono{animation:breathe 1.4s ease-in-out infinite}
+@keyframes breathe{50%{box-shadow:inset 0 1px 1px rgba(255,255,255,.9),0 0 0 1px rgba(217,201,163,.35),0 0 0 4px #0b0b0d,0 0 0 5px rgba(217,201,163,.25),0 0 24px rgba(217,201,163,.5)}}
+.phead h1{font-family:var(--sans);font-size:15px;font-weight:600;letter-spacing:0}
+.phead .st{font-size:12px;color:var(--muted)}
+.phead .tools{margin-left:auto;display:flex;gap:8px}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;padding:12px 16px 4px;list-style:none;counter-reset:s}
+.steps li{position:relative;font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);padding-top:10px;transition:color .4s}
+.steps li::before{content:"";position:absolute;top:0;left:0;right:0;height:2px;border-radius:2px;background:var(--hair2)}
+.steps li::after{content:"";position:absolute;top:0;left:0;height:2px;width:0;border-radius:2px;background:var(--metal);transition:width .9s cubic-bezier(.16,1,.3,1)}
+.steps li.done,.steps li.cur{color:var(--champ)}
+.steps li.done::after{width:100%}
+.steps li.cur::after{width:45%}
+.steps li.cur{color:var(--white)}
+/* oferta w czacie */
+.offer{flex:none;display:flex;gap:10px;overflow-x:auto;padding:6px 2px 10px;scrollbar-width:none;scroll-snap-type:x mandatory;animation:rise .5s .1s both}
+.offer::-webkit-scrollbar{display:none}
+.pc{flex:none;width:156px;scroll-snap-align:start;border-radius:18px;border:1px solid var(--hair);background:rgba(255,255,255,.03);padding:10px 12px 12px;cursor:pointer;text-align:left;transition:border-color var(--fast),background var(--fast),transform var(--fast)}
+.pc:hover{border-color:var(--hairc);background:rgba(217,201,163,.05)}
+.pc:active{transform:scale(.97)}
+.pc svg{margin:0 auto 4px}
+.pc b{display:block;font-weight:600;font-size:13.5px;color:var(--white)}
+.pc span{display:block;font-size:12px;color:var(--muted)}
+.pc .pr{font-family:var(--serif);font-size:20px;color:var(--champ);margin-top:2px}
+/* nasłuch */
+.listen{position:absolute;left:12px;right:12px;bottom:84px;z-index:5;border-radius:20px;padding:16px;text-align:center;animation:rise .3s both}
+.wave{display:flex;align-items:center;justify-content:center;gap:3px;height:42px;margin-bottom:8px}
+.wave i{width:3px;border-radius:3px;background:var(--metal);height:20%;animation:wv .9s ease-in-out infinite}
+@keyframes wv{50%{height:100%}}
+.listen .it{min-height:22px;color:var(--white);font-size:15px}
+.listen small{display:block;margin-top:6px;color:var(--muted);font-size:12px}
+/* kompozytor */
+.composer{display:flex;gap:10px;align-items:center;padding:12px 14px calc(12px + var(--safe-b) * .3);border-top:1px solid var(--hair);background:rgba(8,8,10,.6)}
+.composer input{flex:1;min-width:0;border-radius:var(--r-pill);padding-left:18px}
+.mic{width:56px;height:56px;flex:none;border-radius:50%;border:0;cursor:pointer;display:grid;place-items:center;color:#1d1810;background:var(--metal);box-shadow:inset 0 1px 0 rgba(255,255,255,.85),inset 0 -2px 3px rgba(90,70,30,.35),0 8px 24px rgba(217,201,163,.2);transition:transform var(--fast),box-shadow var(--fast);position:relative}
+.mic .ic{width:24px;height:24px}
+.mic:active{transform:scale(.94)}
+.mic.on{box-shadow:inset 0 1px 0 rgba(255,255,255,.85),0 0 0 6px rgba(217,201,163,.12),0 0 36px rgba(217,201,163,.45)}
+.mic.on::before{content:"";position:absolute;inset:-6px;border-radius:50%;border:1px solid var(--champ);animation:ring 1.4s cubic-bezier(.16,1,.3,1) infinite}
+@keyframes ring{from{opacity:.9;transform:scale(.92)}to{opacity:0;transform:scale(1.35)}}
+.mic.nosr{background:rgba(255,255,255,.06);color:var(--dim);box-shadow:inset 0 0 0 1px var(--hair2)}
+.send{width:48px;height:48px;flex:none;border-radius:50%;border:0;cursor:pointer;display:grid;place-items:center;background:rgba(255,255,255,.07);color:var(--white);box-shadow:inset 0 0 0 1px var(--hair2);transition:background var(--fast),transform var(--fast)}
+.send:hover{background:rgba(255,255,255,.12)}.send:active{transform:scale(.94)}
+/* karta rezerwacji */
+.oc{flex:none;align-self:stretch;margin:8px 0 4px;border-radius:22px;border:1px solid var(--hair2);background:linear-gradient(180deg,rgba(24,24,28,.95),rgba(12,12,15,.95));animation:rise .55s cubic-bezier(.16,1,.3,1) both;position:relative;overflow:hidden}
+.oc-in{padding:18px}
+.oc-h{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:12px}
+.oc-h .label::before{display:none}
+.oc .prod{display:flex;gap:12px;align-items:center}
+.oc .prod svg{flex:none}
+.oc .prod b{display:block;color:var(--white);font-weight:600}
+.oc .prod span{color:var(--muted);font-size:13px}
+.res-grid{display:grid;grid-template-columns:120px 1fr;gap:18px;align-items:center;margin:14px 0}
+.chrono{position:relative;width:120px}
+.chrono .hm,.chrono .hs{transform-origin:50px 50px;transform-box:view-box;transition:transform 1s linear}
+.chrono .arc{transition:stroke-dashoffset 1s linear}
+.chrono .dig{text-align:center;font-family:var(--mono);font-size:13px;color:var(--champ);margin-top:6px;letter-spacing:.06em}
+.chrono.low .dig{color:var(--err)}
+.kv{display:flex;justify-content:space-between;gap:10px;font-size:14px;padding:5px 0;color:var(--muted);border-bottom:1px solid var(--hair)}
+.kv:last-child{border-bottom:0}
+.kv b{color:var(--white);font-weight:500;text-align:right}
+.tot{font-family:var(--serif);font-size:30px;color:var(--white);line-height:1}
+.stepper{display:inline-flex;align-items:center;border-radius:var(--r-pill);box-shadow:inset 0 0 0 1px var(--hair2);overflow:hidden}
+.stepper button{width:38px;height:36px;border:0;background:transparent;color:var(--white);font-size:18px;cursor:pointer;transition:background var(--fast)}
+.stepper button:hover{background:rgba(255,255,255,.08)}
+.stepper output{min-width:42px;text-align:center;font-weight:600;color:var(--white);font-variant-numeric:lining-nums tabular-nums}
+.seg{display:grid;grid-template-columns:1fr 1fr;padding:3px;border-radius:12px;background:rgba(255,255,255,.04);box-shadow:inset 0 0 0 1px var(--hair);margin:14px 0 10px}
+.seg button{min-height:36px;border:0;border-radius:9px;background:transparent;color:var(--muted);font:600 13.5px var(--sans);cursor:pointer;transition:background var(--fast),color var(--fast)}
+.seg button[aria-selected=true]{background:rgba(255,255,255,.1);color:var(--white);box-shadow:0 1px 4px rgba(0,0,0,.4)}
+.blik{display:flex;gap:8px}
+.blik input{flex:1;min-width:0;font:500 24px var(--mono);letter-spacing:.45em;text-align:center;padding:8px}
+.testnote{display:flex;gap:8px;align-items:flex-start;font-size:12.5px;color:#e9d9a8;padding:10px 12px;border-radius:12px;background:rgba(241,199,102,.06);box-shadow:inset 0 0 0 1px rgba(241,199,102,.25);margin-top:10px}
+.oc-acts{display:flex;justify-content:space-between;gap:6px;margin-top:8px;flex-wrap:wrap}
+.proc{display:flex;align-items:center;gap:12px;font-size:14px;color:var(--white);min-height:48px}
+/* e-bilet */
+.ticket{border-color:var(--hairc)}
+.t-head{padding:20px 20px 18px;position:relative;overflow:hidden;isolation:isolate}
+.t-head::before{content:"";position:absolute;right:-120px;top:-110px;width:340px;height:340px;background:url(guilloche.svg) center/contain no-repeat;opacity:.16;z-index:-1}
+.t-head .stripe{margin-bottom:14px}
+.t-no{font-family:var(--serif);font-size:44px;line-height:1;color:var(--white);margin:6px 0 4px;text-shadow:0 1px 0 rgba(0,0,0,.6),0 -1px 0 rgba(255,255,255,.06)}
+.t-perf{position:relative;height:1px;margin:0 20px;background-image:linear-gradient(90deg,rgba(217,201,163,.4) 30%,transparent 0);background-size:9px 1px}
+.t-perf::before,.t-perf::after{content:"";position:absolute;top:-12px;width:24px;height:24px;border-radius:50%;background:#08080a;box-shadow:inset 0 0 0 1px var(--hairc)}
+.t-perf::before{left:-33px}.t-perf::after{right:-33px}
+.t-body{padding:18px 20px 20px}
+.t-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px 18px}
+.t-grid div small{display:block;font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--champ3);font-weight:600}
+.t-grid div b{display:block;font-family:var(--serif);font-weight:500;font-size:23px;color:var(--white);line-height:1.2}
+.t-qr{margin:20px auto 12px;width:204px;padding:12px;border-radius:18px;background:#f7f3ea;box-shadow:0 0 0 1px var(--hairc),0 0 0 7px #0e0e11,0 0 0 8px rgba(217,201,163,.2),0 20px 50px rgba(0,0,0,.5)}
+.t-qr img{width:100%;height:auto;image-rendering:pixelated}
+.t-code{text-align:center;font-family:var(--serif);font-size:38px;letter-spacing:.12em;color:var(--champ2);text-shadow:0 1px 0 rgba(0,0,0,.7),0 -1px 0 rgba(255,255,255,.08)}
+.t-hint{text-align:center;color:var(--muted);font-size:13px;margin:4px 0 16px}
+.t-acts{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.walletbtn{grid-column:1/-1;background:#000;color:#fff;box-shadow:inset 0 0 0 1px rgba(255,255,255,.22);min-height:50px;border-radius:12px}
+.walletbtn:hover{background:#111}
+.walletbtn .ic{color:var(--champ)}
+.doneseal{display:inline-flex;align-items:center;gap:8px;color:var(--ok);font-size:13px;margin-top:10px}
+/* panel boczny */
+.side{display:grid;gap:var(--s4)}
+.stock{display:grid;gap:4px}
+.si{display:grid;grid-template-columns:64px 1fr auto;gap:12px;align-items:center;padding:10px 4px;border-bottom:1px solid var(--hair);cursor:pointer;border-radius:12px;transition:background var(--fast)}
+.si:last-child{border-bottom:0}
+.si:hover{background:rgba(255,255,255,.03)}
+.si b{display:block;color:var(--white);font-weight:600;font-size:14px}
+.si small{color:var(--muted);font-size:12px}
+.si .bar{height:2px;border-radius:2px;background:var(--hair2);margin-top:7px;overflow:hidden}
+.si .bar i{display:block;height:100%;background:var(--metal);transition:width .9s cubic-bezier(.16,1,.3,1)}
+.si .n{font-family:var(--serif);font-size:26px;color:var(--white);text-align:right;line-height:1;font-variant-numeric:lining-nums tabular-nums}
+.si .n small{display:block;font-family:var(--sans);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim)}
+.si.low .n{color:var(--err)}
+.si.flash{animation:fl 1.2s}
+@keyframes fl{30%{background:rgba(217,201,163,.08)}}
+.pkcard{position:relative;overflow:hidden}
+.pkcard p{color:var(--muted);font-size:14px;margin:8px 0 14px}
+.support{font-size:13px;color:var(--muted);line-height:1.6}
+.support .w{color:var(--warn)}
+@media (max-width:920px){.order{grid-template-columns:minmax(0,1fr);padding-top:var(--s3)}.phone{height:calc(100dvh - 120px);min-height:540px;border-radius:24px}}
+@media (max-width:420px){.res-grid{grid-template-columns:104px 1fr;gap:14px}.chrono{width:104px}.t-no{font-size:38px}.pc{width:144px}}
 </style>
 </head>
 <body>
-<canvas id="fx"></canvas>
-<div class="demo-banner">Demo · płatności testowe · dane przykładowe</div>
-<div class="wrap" id="navw"></div>
-<div class="wrap">
-<div class="layout">
-  <section class="phone" id="phone">
-    <div class="phead">
-      <div class="av"></div>
-      <div><h2>JOKERA<span class="l">l</span> Firma — zamówienia</h2><div class="st" id="status">● online 24/7 · odpowiada od razu</div></div>
-      <div class="tools"><button class="icon on" id="talkBtn" title="Tryb rozmowy: po odpowiedzi od razu słucham">🗣️</button><button class="icon on" id="muteBtn" title="Głos asystenta">🔊</button></div>
+<div id="navw"></div>
+<main class="wrap order">
+  <section class="phone" id="phone" aria-label="Rozmowa z asystentem zamówień">
+    <div class="phead carbon">
+      <div class="av"><span class="mono" aria-hidden="true">J</span></div>
+      <div><h1>Asystent zamówień JOKERA<span class="l">l</span></h1><div class="st" id="status">Odpowiada od razu · 24/7</div></div>
+      <div class="tools">
+        <button class="icon-btn" id="pkBtn" aria-label="Pokaz automatyczny" title="Pokaz automatyczny"></button>
+        <button class="icon-btn" id="muteBtn" aria-pressed="false" aria-label="Głos asystenta: wyłączony" title="Głos asystenta"></button>
+      </div>
     </div>
-    <div class="chatbox">
-      <div class="chat" id="chat" aria-live="polite"></div>
-      <div class="chips" id="chips"></div>
-      <form class="composer" id="form" autocomplete="off">
-        <button type="button" class="mic" id="mic" title="Mów (pl-PL)">🎙️</button>
-        <input id="inp" placeholder="Napisz lub powiedz, np. 10 palet euro na jutro na 9:00" aria-label="Wiadomość">
-        <button class="send" title="Wyślij">➤</button>
-      </form>
-    </div>
+    <ol class="steps" id="steps" aria-label="Postęp zamówienia"><li>Zamówienie</li><li>Płatność</li><li>Odbiór</li></ol>
+    <div class="chat" id="chat" role="log" aria-live="polite" aria-relevant="additions"></div>
+    <div class="listen glass hidden" id="listen" aria-live="polite"><div class="wave" id="wave"></div><div class="it" id="interim">Słucham…</div><small>Stuknij mikrofon, aby zakończyć</small></div>
+    <div class="chips" id="chips" aria-label="Szybkie odpowiedzi"></div>
+    <form class="composer" id="form" autocomplete="off">
+      <button type="button" class="mic" id="mic" aria-label="Mów — rozpoznawanie mowy po polsku"></button>
+      <label class="sr" for="inp">Wiadomość</label>
+      <input id="inp" placeholder="np. 10 palet euro jutro 9:00" enterkeyhint="send">
+      <button class="send" id="sendBtn" aria-label="Wyślij"></button>
+    </form>
   </section>
   <aside class="side">
-    <div class="card"><h3>Stan magazynu na żywo <span class="tag pur">live</span></h3><div class="stock" id="stock"></div><p class="muted" style="font-size:12px;margin-top:8px">Dostępne = stan − aktywne rezerwacje. Zmienia się na żywo, także gdy edytujesz stany w <a href="panel.html" target="_blank">panelu firmy</a>.</p></div>
-    <div class="card"><h3>Jak to działa</h3><ol class="how"><li>Mówisz albo piszesz, czego potrzebujesz.</li><li>Bot sprawdza stan i rezerwuje towar na 30 minut.</li><li>Płacisz (tu: płatność TESTOWA).</li><li>Dostajesz kod QR i odbierasz w <a href="odbior.html" target="_blank">Paczkomacie Joker</a>.</li></ol></div>
-    <div class="card"><h3>Głos</h3><div class="support" id="support"></div></div>
+    <div class="card"><div class="card-h"><h2>Oferta i stany</h2><span class="badge live">na żywo</span></div><div class="stock" id="stock"></div>
+      <p class="dim" style="font-size:12px;margin-top:10px">Dostępne = stan − aktywne rezerwacje. Zmiany w <a href="panel.html">panelu firmy</a> widać tu od razu. Ceny przykładowe, brutto za sztukę.</p></div>
+    <div class="card pkcard guilloche"><span class="label">Dla managera</span><h2 class="serif" style="font-size:28px;margin-top:8px">Pokaz <em class="l" style="font-size:1em">automatyczny</em></h2><p>Cały proces sam od siebie: zamówienie, płatność, bilet z kodem QR, otwarcie skrytki i panel firmy. Z podpisami.</p><button class="btn primary block sheen" id="pkBtn2"></button></div>
+    <div class="card"><div class="card-h"><h2>Głos</h2></div><div class="support" id="support"></div></div>
   </aside>
-</div>
-</div>
-<div class="wrap" id="footw"></div>
-<script src="vendor/qrcode.js"></script>
+</main>
+<div id="footw"></div>
+<script src="vendor/qrcode.min.js"></script>
 <script src="firma-engine.js"></script>
 <script src="shared.js"></script>
 <script>
 (() => {
-const F = window.JokerFirma, $ = JK.$;
-$('navw').innerHTML = JK.nav('zamowienie.html'); $('footw').innerHTML = JK.foot();
+const F = window.JokerFirma, $ = JK.$, I = JK.icon;
+JK.mount('zamowienie.html');
 const store = F.createStore(window.localStorage);
-let sess = F.createSession({ store });
-const chat = $('chat'), fx = JK.fireworks($('fx'), { once: true });
+const sess = F.createSession({ store });
+const chat = $('chat');
 const BASE = location.href.replace(/[#?].*$/, '').replace(/[^/]*$/, '');
-const cards = {}; // orderId -> element
-let talkMode = true, listening = false, rec = null, usedVoice = false;
-
-/* wsparcie */
+const cards = {}; let current = null, listening = false, rec = null, usedVoice = false, busy = Promise.resolve();
+const QUICK = ['10 palet euro jutro 9:00', 'Ile kosztuje paleta?', 'Godziny otwarcia', 'Ile macie na stanie?'];
+$('pkBtn').innerHTML = I('play'); $('pkBtn2').innerHTML = I('play') + 'Uruchom pokaz';
+$('sendBtn').innerHTML = I('send'); $('mic').innerHTML = I('mic');
+for (let i = 0; i < 28; i++) { const b = document.createElement('i'); b.style.animationDelay = (Math.abs(Math.sin(i * 1.9)) * .9).toFixed(2) + 's'; b.style.animationDuration = (.7 + Math.abs(Math.cos(i)) * .5).toFixed(2) + 's'; $('wave').appendChild(b); }
+function setMute() { const m = JK.voice.muted; $('muteBtn').innerHTML = I(m ? 'mute' : 'sound'); $('muteBtn').setAttribute('aria-pressed', String(!m)); $('muteBtn').setAttribute('aria-label', 'Głos asystenta: ' + (m ? 'wyłączony' : 'włączony')); }
+setMute();
+$('muteBtn').onclick = () => { JK.voice.muted = !JK.voice.muted; setMute(); JK.toast(JK.voice.muted ? 'Głos asystenta wyłączony.' : 'Głos asystenta włączony.', 'info'); };
+/* wsparcie mowy */
 const sup = [];
-sup.push(JK.voice.canListen ? '✅ Rozpoznawanie mowy po polsku działa — stuknij 🎙️ i mów.' : '<span class="w">⚠️ Ta przeglądarka nie rozpoznaje mowy (np. Firefox). Pisz — asystent i tak odpowie głosem.</span>');
-if (!JK.voice.canSpeak) sup.push('<span class="w">⚠️ Brak syntezy mowy — odpowiedzi tylko tekstem.</span>');
-sup.push('Najlepiej działa w Chrome (komputer, Android) i Safari na iPhonie. Przy pierwszym użyciu przeglądarka zapyta o mikrofon.');
-$('support').innerHTML = sup.join('<br>');
-
-function bubble(cls, label, html) {
-  const d = document.createElement('div'); d.className = 'msg ' + cls;
-  d.innerHTML = (label ? '<small>' + label + '</small>' : '') + '<span>' + html + '</span>';
-  chat.appendChild(d); chat.scrollTop = chat.scrollHeight; return d;
+if (JK.voice.canListen) sup.push('Rozpoznawanie mowy po polsku działa. Stuknij złoty mikrofon i mów naturalnie.');
+else { sup.push('<span class="w">Ta przeglądarka nie rozpoznaje mowy.</span> Pisz albo stuknij gotową odpowiedź. Na iPhonie działa Safari, na Androidzie Chrome.'); $('mic').classList.add('nosr'); $('mic').setAttribute('aria-label', 'Mowa niedostępna w tej przeglądarce'); }
+sup.push('Głos asystenta jest domyślnie wyłączony. Włączysz go ikoną głośnika.');
+$('support').innerHTML = sup.join('<br><br>');
+/* czat */
+const BOT = 'Asystent';
+function bubble(cls, label, html) { const d = document.createElement('div'); d.className = 'msg ' + cls; d.innerHTML = (label ? '<small>' + label + '</small>' : '') + '<span>' + html + '</span>'; chat.appendChild(d); chat.scrollTop = chat.scrollHeight; return d; }
+function chips(list) { const c = $('chips'); c.innerHTML = ''; (list && list.length ? list : QUICK).forEach(t => { const b = document.createElement('button'); b.type = 'button'; b.className = 'chip'; b.textContent = t; b.onclick = () => send(t); c.appendChild(b); }); c.scrollLeft = 0; }
+function botSay(res, opt) {
+  opt = opt || {};
+  busy = busy.then(async () => {
+    if (!opt.instant) await JK.typing(chat, 450 + Math.min(700, res.say.length * 6));
+    bubble('a', BOT, JK.brand(res.say)); chips(res.chips);
+    if (res.ui && res.ui.orderId) { current = res.ui.orderId; renderCard(res.ui.orderId, true); }
+    if (!opt.silent) { $('phone').classList.add('speaking'); JK.speak(res.say, () => { $('phone').classList.remove('speaking'); if (usedVoice && JK.voice.canListen && !(res.ui && res.ui.type === 'pay') && !JK.pokaz.on) setTimeout(startListen, 300); }); }
+    progress();
+  });
+  return busy;
 }
-const BOT = 'Asystent JOKERA<span class="l">l</span>';
-function chips(list) { const c = $('chips'); c.innerHTML = ''; (list || []).forEach(t => { const b = document.createElement('button'); b.type = 'button'; b.className = 'chip'; b.textContent = t; b.onclick = () => send(t); c.appendChild(b); }); }
-function botSay(res, noVoice) {
-  bubble('a', BOT, JK.brand(res.say));
-  chips(res.chips);
-  if (res.ui && res.ui.orderId) renderCard(res.ui.orderId, true);
-  if (!noVoice) {
-    document.body.classList.add('speaking'); $('phone').classList.add('speaking');
-    JK.speak(res.say, () => { $('phone').classList.remove('speaking'); if (talkMode && usedVoice && !(res.ui && res.ui.type === 'pay')) setTimeout(startListen, 250); });
-  }
-}
-function send(text) {
-  text = String(text || '').trim(); if (!text) return;
-  bubble('k', 'Ty', JK.esc(text)); $('inp').value = '';
-  const res = sess.handle(text);
-  setTimeout(() => botSay(res), 260);
-  renderStock();
-}
-window.__send = send; // test hook
+function send(text) { text = String(text || '').trim(); if (!text) return busy; bubble('k', 'Ty', JK.esc(text)); $('inp').value = ''; const res = sess.handle(text); renderStock(); return botSay(res); }
+window.__send = send;
 $('form').onsubmit = e => { e.preventDefault(); usedVoice = false; send($('inp').value); };
-
 /* mikrofon */
-let interimEl = null;
 function startListen() {
+  if (!JK.voice.canListen) { JK.toast('Ta przeglądarka nie rozpoznaje mowy. Pisz albo stuknij gotową odpowiedź poniżej.', 'err'); $('inp').focus(); return; }
   if (listening) { rec && rec.stop(); return; }
-  usedVoice = true;
+  usedVoice = true; $('interim').textContent = 'Słucham…';
   rec = JK.listen({
-    onInterim: t => { if (!interimEl) interimEl = bubble('k interim', 'Ty (słucham…)', ''); interimEl.lastChild.textContent = t; chat.scrollTop = chat.scrollHeight; },
-    onFinal: t => { if (interimEl) { interimEl.remove(); interimEl = null; } if (t) send(t); },
-    onState: on => { listening = on; $('mic').classList.toggle('on', on); $('status').textContent = on ? '● słucham…' : '● online 24/7 · odpowiada od razu'; },
-    onError: m => { bubble('sys', '', JK.esc(m)); usedVoice = false; }
+    onInterim: t => { $('interim').textContent = t || 'Słucham…'; },
+    onFinal: t => { $('listen').classList.add('hidden'); if (t) send(t); },
+    onState: on => { listening = on; $('mic').classList.toggle('on', on); $('listen').classList.toggle('hidden', !on); $('status').textContent = on ? 'Słucham…' : 'Odpowiada od razu · 24/7'; },
+    onError: m => { $('listen').classList.add('hidden'); JK.toast(m, 'err'); usedVoice = false; }
   });
 }
 $('mic').onclick = startListen;
-$('muteBtn').onclick = () => { JK.voice.muted = !JK.voice.muted; $('muteBtn').classList.toggle('on', !JK.voice.muted); $('muteBtn').textContent = JK.voice.muted ? '🔇' : '🔊'; if (JK.voice.muted) JK.stopSpeak(); };
-$('talkBtn').onclick = () => { talkMode = !talkMode; $('talkBtn').classList.toggle('on', talkMode); JK.toast(talkMode ? 'Tryb rozmowy włączony — po odpowiedzi od razu słucham.' : 'Tryb rozmowy wyłączony.'); };
-
-/* stany */
-let lastAv = {};
-function renderStock() {
-  store.sweep();
-  const d = store.get(), today = F.iso(new Date());
-  $('stock').innerHTML = d.products.map(p => { const a = store.available(p.id, today); const fl = lastAv[p.id] != null && lastAv[p.id] !== a ? ' flash' : ''; lastAv[p.id] = a;
-    return `<div class="sitem${fl}"><div><b>${p.name}</b><div class="muted" style="font-size:12px">${p.size} · ${F.zl(p.price)}/szt.</div></div><div class="n${a < 20 ? ' low' : ''}">${a}</div></div>`; }).join('');
+/* postęp */
+function progress() {
+  const o = current && store.order(current), li = $('steps').children;
+  const st = !o ? 0 : o.status === 'rezerwacja' || o.status === 'akceptacja' ? 1 : o.status === 'opłacone' ? 2 : o.status === 'wydane' ? 3 : 0;
+  [...li].forEach((l, i) => { l.className = i < st ? 'done' : i === st ? 'cur' : ''; l.setAttribute('aria-current', i === st ? 'step' : 'false'); });
 }
-
-/* karta zamówienia w czacie */
-function qrImg(text) { const q = qrcode(0, 'M'); q.addData(text); q.make(); return q.createImgTag(6, 8, 'Kod QR odbioru'); }
+/* stany + oferta */
+let lastAv = {};
+const KIND = { epal: 'epal', przem: 'przem', jedn: 'jedn', pol: 'pol' };
+const SAY = { epal: 'palety euro EPAL', przem: 'palety przemysłowe', jedn: 'palety jednorazowe', pol: 'półpalety' };
+function renderStock() {
+  store.sweep(); const d = store.get(), today = F.iso(new Date());
+  $('stock').innerHTML = d.products.map(p => { const a = store.available(p.id, today), cap = Math.max(p.stock, a, 1), fl = lastAv[p.id] != null && lastAv[p.id] !== a ? ' flash' : ''; lastAv[p.id] = a;
+    return `<div class="si${a < 20 ? ' low' : ''}${fl}" role="button" tabindex="0" data-p="${p.id}">${JK.pallet(KIND[p.id], 64)}<div><b>${p.name}</b><small>${p.size} · ${F.zl(p.price)}</small><div class="bar"><i style="width:${Math.min(100, 100 * a / cap).toFixed(0)}%"></i></div></div><div class="n">${a}<small>szt.</small></div></div>`; }).join('');
+}
+$('stock').onclick = e => { const s = e.target.closest('.si'); if (s) send(SAY[s.dataset.p]); };
+$('stock').onkeydown = e => { if (e.key === 'Enter') { const s = e.target.closest('.si'); if (s) send(SAY[s.dataset.p]); } };
+function offer() { const d = store.get(), w = document.createElement('div'); w.className = 'offer'; w.setAttribute('aria-label', 'Oferta');
+  w.innerHTML = d.products.map(p => `<button type="button" class="pc" data-p="${p.id}">${JK.pallet(KIND[p.id], 110)}<b>${p.name}</b><span>${p.size}</span><div class="pr">${F.zl(p.price)}</div></button>`).join('');
+  w.onclick = e => { const b = e.target.closest('.pc'); if (b) send(SAY[b.dataset.p]); }; chat.appendChild(w); }
+/* karty zamówienia */
+const qrImg = text => { const q = qrcode(0, 'M'); q.addData(text); q.make(); return { tag: q.createImgTag(5, 0, 'Kod QR odbioru'), q }; };
 function renderCard(id, fresh) {
   const o = store.order(id); if (!o) return;
   let el = cards[id];
-  if (!el) { el = document.createElement('div'); el.className = 'oc'; el.dataset.id = id; chat.appendChild(el); cards[id] = el; }
+  if (!el) { el = document.createElement('article'); el.className = 'oc'; el.dataset.id = id; chat.appendChild(el); cards[id] = el; }
   const prev = el.dataset.status; el.dataset.status = o.status;
-  const head = `<div class="row"><span>Zamówienie</span><b>${o.no}</b></div><div class="row"><span>Towar</span><b>${o.qty} × ${o.name}</b></div><div class="row"><span>Odbiór</span><b>${F.dayLabel(o.date, new Date())}, ${o.time}</b></div>`;
+  const when = F.dayLabel(o.date, new Date()).replace(/^(\S+) \((.*)\)$/, '$1, $2');
   if (o.status === 'rezerwacja') {
-    if (prev === 'rezerwacja' && el.querySelector('.cd')) return tickCard(el, o);
-    el.innerHTML = `<h3>🔒 Rezerwacja <span class="tag pur">30 min</span></h3>${head}<div class="row"><span>Do zapłaty</span><b class="tot">${F.zl(o.total)}</b></div>
-      <div class="cd"><span class="t">30:00</span><span class="bar"><i style="width:100%"></i></span></div>
-      <div class="paytabs"><button type="button" class="on" data-m="blik">BLIK</button><button type="button" data-m="card">Karta</button></div>
-      <div class="pm-blik"><div class="blik"><input inputmode="numeric" maxlength="6" placeholder="••••••" aria-label="Kod BLIK (test)"><button type="button" class="btn primary pay">Zapłać</button></div></div>
-      <div class="pm-card hidden"><button type="button" class="btn primary pay" data-card="1" style="width:100%">💳 Zapłać kartą testową •••• 4242</button></div>
-      <div class="testnote"><span class="tag test">TEST</span> Płatność demonstracyjna — żadne pieniądze nie są pobierane. Wpisz dowolne 6 cyfr, np. 777 123.</div>
-      <div class="acts"><button type="button" class="linkbtn warp">⏩ Symuluj upływ 30 min (demo)</button><button type="button" class="linkbtn cancel">Anuluj rezerwację</button></div>`;
-    el.querySelectorAll('.paytabs button').forEach(b => b.onclick = () => { el.querySelectorAll('.paytabs button').forEach(x => x.classList.toggle('on', x === b)); el.querySelector('.pm-blik').classList.toggle('hidden', b.dataset.m !== 'blik'); el.querySelector('.pm-card').classList.toggle('hidden', b.dataset.m !== 'card'); });
+    if (prev === 'rezerwacja' && el.querySelector('.chrono')) { tick(el, o); el.querySelector('output').value = o.qty; el.querySelector('.tot').textContent = F.zl(o.total); el.querySelectorAll('.paylbl').forEach(x => x.textContent = 'Zapłać ' + F.zl(o.total)); return; }
+    el.classList.remove('ticket');
+    el.innerHTML = `<div class="oc-in"><div class="oc-h"><span class="label">${I('lock')} Rezerwacja ${o.no}</span><span class="badge gold">30 min</span></div>
+      <div class="prod">${JK.pallet(KIND[o.product], 72)}<div><b>${o.name}</b><span>${F.zl(o.unit)} / szt. · ${o.time}, ${when}</span></div></div>
+      <div class="res-grid"><div class="chw"></div><div><div class="kv"><span>Ilość</span><span class="stepper" role="group" aria-label="Zmień ilość"><button type="button" data-d="-1" aria-label="Mniej">−</button><output aria-live="polite">${o.qty}</output><button type="button" data-d="1" aria-label="Więcej">+</button></span></div><div class="kv"><span>Odbiór</span><b>${F.pickupWindow(o.time)}</b></div><div class="kv" style="align-items:flex-end"><span>Razem</span><span class="tot num">${F.zl(o.total)}</span></div></div></div>
+      <div class="seg" role="tablist" aria-label="Metoda płatności"><button type="button" role="tab" aria-selected="true" data-m="blik">BLIK</button><button type="button" role="tab" aria-selected="false" data-m="card">Karta</button></div>
+      <div class="pm-blik"><div class="blik"><input inputmode="numeric" autocomplete="one-time-code" maxlength="6" placeholder="••••••" aria-label="Kod BLIK (testowy, 6 cyfr)"><button type="button" class="btn primary pay"><span class="paylbl">Zapłać ${F.zl(o.total)}</span></button></div></div>
+      <div class="pm-card hidden"><button type="button" class="btn primary block pay" data-card="1">${I('lock')}<span class="paylbl">Zapłać ${F.zl(o.total)}</span> · karta •••• 4242</button></div>
+      <div class="testnote"><span class="badge test">Test</span><span>Płatność demonstracyjna — żadne pieniądze nie są pobierane. Wpisz dowolne 6 cyfr.</span></div>
+      <div class="oc-acts"><button type="button" class="btn link undo">${I('undo')} Cofnij zamówienie</button><button type="button" class="btn link warp">Symuluj upływ 30 min</button></div></div>`;
+    const ch = JK.chrono(F.RES_MIN * 60e3); el.querySelector('.chw').appendChild(ch); el._ch = ch;
+    el.querySelectorAll('.seg button').forEach(b => b.onclick = () => { el.querySelectorAll('.seg button').forEach(x => x.setAttribute('aria-selected', String(x === b))); el.querySelector('.pm-blik').classList.toggle('hidden', b.dataset.m !== 'blik'); el.querySelector('.pm-card').classList.toggle('hidden', b.dataset.m !== 'card'); });
     const inp = el.querySelector('.blik input'); inp.oninput = () => { inp.value = inp.value.replace(/\D/g, '').slice(0, 6); };
+    inp.onkeydown = e => { if (e.key === 'Enter') doPay(id, el, false); };
     el.querySelectorAll('.pay').forEach(b => b.onclick = () => doPay(id, el, !!b.dataset.card));
+    el.querySelector('.stepper').onclick = e => { const b = e.target.closest('button'); if (!b) return; const cur = store.order(id); const r = store.changeQty(id, cur.qty + +b.dataset.d); if (!r.ok) JK.toast(r.reason, 'err'); renderCard(id); renderStock(); };
     el.querySelector('.warp').onclick = () => { store.expireNow(id); refreshAll(); };
-    el.querySelector('.cancel').onclick = () => { store.cancel(id); refreshAll(); botSay({ say: `Anulowałem rezerwację ${o.no}. Towar wrócił na stan.` }); };
-    tickCard(el, o);
+    el.querySelector('.undo').onclick = () => { store.cancel(id); refreshAll(); botSay({ say: `Cofnąłem zamówienie ${o.no}. Towar wrócił na stan. Coś innego?` }); };
+    tick(el, o);
   } else if (o.status === 'akceptacja') {
-    el.innerHTML = `<h3>⏳ Do akceptacji człowieka <span class="tag warn">duże zamówienie</span></h3>${head}<div class="row"><span>Wartość</span><b class="tot">${F.zl(o.total)}</b></div>
-      <p class="muted" style="font-size:13px;margin-top:8px">Zamówienia powyżej ${F.BIG} szt. zatwierdza pracownik. Towar jest wstępnie zatrzymany. W demo zatwierdzisz je sam w <a href="panel.html" target="_blank">Panelu firmy</a> — ta karta zmieni się sama na płatność.</p>`;
+    el.innerHTML = `<div class="oc-in"><div class="oc-h"><span class="label">${I('users')} ${o.no}</span><span class="badge warn">Do akceptacji</span></div><div class="prod">${JK.pallet(KIND[o.product], 72)}<div><b>${o.qty} × ${o.name}</b><span>${o.time}, ${when} · ${F.zl(o.total)}</span></div></div>
+      <p class="muted" style="font-size:13.5px;margin-top:12px">Zamówienia powyżej ${F.BIG} szt. zatwierdza człowiek. Towar jest wstępnie zatrzymany. W demo zatwierdzisz je w <a href="panel.html">panelu firmy</a> — ta karta sama zmieni się w płatność.</p></div>`;
   } else if (o.status === 'opłacone' || o.status === 'wydane') {
     if (prev === o.status) return;
-    const url = F.qrPayload(o, BASE);
-    el.innerHTML = `<div class="conf"><div class="ok">✓</div><h3 style="justify-content:center">${o.status === 'wydane' ? 'Odebrane — dziękujemy!' : 'Opłacone! Potwierdzenie wydania towaru'}</h3>
-      ${head}<div class="row"><span>Zapłacono (TEST)</span><b>${F.zl(o.total)}</b></div>
-      <div class="qrbox" id="qr-${o.id}">${qrImg(url)}</div>
-      <div class="muted" style="font-size:12px">Kod odbioru</div><div class="code">${o.code.replace(/(\d{3})(\d{3})/, '$1 $2')}</div>
-      <p class="muted" style="font-size:13px;margin:8px 0">Pokaż ten kod QR w Paczkomacie Joker (skrytka ${o.locker}) — palety czekają na rampie nr 2.</p>
-      <div class="acts" style="justify-content:center"><a class="btn primary sm" href="${url.replace(BASE, '')}" target="_blank">📦 Otwórz Paczkomat Joker</a><a class="btn ghost sm dl" download="${o.no}-kod-odbioru.png">⬇️ Zapisz QR</a></div>
-      ${o.status === 'wydane' ? '<p style="margin-top:10px"><span class="tag ok">wydane</span></p>' : ''}</div>`;
-    const img = el.querySelector('.qrbox img'); if (img) el.querySelector('.dl').href = img.src;
-    if (prev === 'rezerwacja' || prev === 'akceptacja' || fresh) { const r = el.getBoundingClientRect(); fx.burst(r.left + r.width / 2, r.top + 60, 120); setTimeout(() => fx.burst(r.left + r.width * .25, r.top + 40, 80), 250); setTimeout(() => fx.burst(r.left + r.width * .75, r.top + 40, 80), 450); }
+    const url = F.qrPayload(o, BASE), qr = qrImg(url);
+    el.classList.add('ticket');
+    el.innerHTML = `<div class="t-head"><span class="stripe" aria-hidden="true"></span><span class="label plain">Bilet odbioru</span><div class="t-no">${o.no}</div><div class="muted">${o.qty} × ${o.name}</div></div>
+      <div class="t-perf" aria-hidden="true"></div>
+      <div class="t-body"><div class="t-grid"><div><small>Data</small><b>${F.short(o.date)}</b></div><div><small>Okno odbioru</small><b>${F.pickupWindow(o.time)}</b></div><div><small>Rampa</small><b>2</b></div><div><small>Skrytka</small><b>${o.locker}</b></div></div>
+      <div class="t-qr">${qr.tag}</div><div class="t-code num" aria-label="Kod odbioru ${o.code.split('').join(' ')}">${o.code.replace(/(\d{3})(\d{3})/, '$1 $2')}</div><div class="t-hint">Zapłacono ${F.zl(o.total)} (test) · pokaż kod w Paczkomacie Joker</div>
+      <div class="t-acts"><button type="button" class="btn walletbtn wpng">${I('wallet')} Zapisz bilet w telefonie</button><button type="button" class="btn ghost sm wpdf">${I('dl')} PDF</button><a class="btn ghost sm" href="${url.replace(BASE, '')}">${I('qr')} Paczkomat</a></div>
+      ${o.status === 'wydane' ? `<div class="doneseal">${I('check')} Odebrane — dziękujemy</div>` : ''}</div>`;
+    const mk = async () => { try { await document.fonts.load('500 40px "Cormorant Garamond"'); } catch (e) { } const n = qr.q.getModuleCount(), m = []; for (let r = 0; r < n; r++) { m.push([]); for (let k = 0; k < n; k++) m[r].push(qr.q.isDark(r, k)); } return JK.ticketCanvas(o, m, { date: F.short(o.date), window: F.pickupWindow(o.time) }); };
+    el.querySelector('.wpng').onclick = async () => { const c = await mk(); c.toBlob(b => { JK.download(b, `${o.no}-bilet.png`); JK.toast('Bilet zapisany jako obraz. Na iPhonie: Udostępnij → Zachowaj obraz.', 'ok'); }); };
+    el.querySelector('.wpdf').onclick = async () => { const c = await mk(); JK.download(JK.pdfFromCanvas(c), `${o.no}-bilet.pdf`); JK.toast('Bilet zapisany jako PDF.', 'ok'); };
+    if (prev === 'rezerwacja' || prev === 'akceptacja' || fresh) setTimeout(() => JK.sheen(el), 250);
   } else if (o.status === 'wygasła') {
     if (prev === 'wygasła') return;
-    el.innerHTML = `<h3>⌛ Rezerwacja wygasła</h3>${head}<p class="muted" style="font-size:13px;margin:8px 0">Nie było wpłaty w ciągu 30 minut, więc ${o.qty} szt. wróciło na stan.</p><div class="acts"><button type="button" class="btn ghost sm again">🔁 Zamów ponownie</button></div>`;
-    el.querySelector('.again').onclick = () => send(`${o.qty} ${o.name.toLowerCase().replace('paleta', 'palet')} ${o.date.split('-').reverse().slice(0, 2).join('.')} o ${o.time}`);
-    if (prev === 'rezerwacja') botSay({ say: `Rezerwacja ${o.no} wygasła, bo nie było wpłaty. Towar wrócił na stan. Jeśli nadal potrzebujesz palet, mogę zarezerwować je jeszcze raz.`, chips: ['zamów ponownie'] });
+    el.classList.remove('ticket');
+    el.innerHTML = `<div class="oc-in"><div class="oc-h"><span class="label">${I('clock')} ${o.no}</span><span class="badge bad">Wygasła</span></div><p class="muted" style="font-size:14px">Nie było wpłaty w ciągu 30 minut, więc ${o.qty} szt. wróciło na stan.</p><div class="oc-acts"><button type="button" class="btn ghost sm again">${I('reset')} Zarezerwuj ponownie</button></div></div>`;
+    el.querySelector('.again').onclick = () => send('zamów ponownie');
+    if (prev === 'rezerwacja') botSay({ say: `Rezerwacja ${o.no} wygasła, bo nie było wpłaty. Towar wrócił na stan. Mogę zarezerwować jeszcze raz.`, chips: ['zamów ponownie'] });
   } else if (o.status === 'odrzucone') {
-    el.innerHTML = `<h3>✖ Zamówienie anulowane</h3>${head}`;
+    el.classList.remove('ticket');
+    el.innerHTML = `<div class="oc-in"><div class="oc-h"><span class="label">${o.no}</span><span class="badge">Anulowane</span></div><p class="muted" style="font-size:14px">${o.qty} × ${o.name} — towar wrócił na stan.</p></div>`;
   }
-  chat.scrollTop = chat.scrollHeight;
+  progress();
 }
-function tickCard(el, o) {
-  const left = Math.max(0, o.expiresAt - Date.now()), s = Math.ceil(left / 1000);
-  const cd = el.querySelector('.cd'); if (!cd) return;
-  cd.querySelector('.t').textContent = String(Math.floor(s / 60)).padStart(2, '0') + ':' + String(s % 60).padStart(2, '0');
-  cd.querySelector('.bar i').style.width = (100 * left / (F.RES_MIN * 60e3)).toFixed(2) + '%';
-  cd.classList.toggle('low', s < 300);
-}
-function doPay(id, el, card) {
+function tick(el, o) { if (el._ch) el._ch.update(o.expiresAt - Date.now()); }
+async function doPay(id, el, card) {
   const inp = el.querySelector('.blik input');
-  if (!card && !/^\d{6}$/.test(inp.value)) { inp.focus(); JK.toast('Wpisz 6 cyfr kodu BLIK (testowego), np. 777123.'); return; }
+  if (!card && !/^\d{6}$/.test(inp.value)) { inp.focus(); JK.toast('Kod BLIK ma 6 cyfr. W demo wpisz dowolne, np. 777 123.', 'err'); return; }
   const box = el.querySelector(card ? '.pm-card' : '.pm-blik');
-  box.innerHTML = `<div class="proc"><span class="spin"></span>${card ? 'Autoryzacja karty testowej…' : 'Potwierdź płatność w aplikacji banku… (symulacja)'}</div>`;
-  setTimeout(() => {
-    const r = store.pay(id, card ? 'Karta testowa 4242' : 'BLIK (TEST)');
-    if (!r.ok) { JK.toast(r.reason); refreshAll(); return; }
-    refreshAll();
-    const o = r.order;
-    botSay({ say: `Płatność przyjęta, dziękuję! Zamówienie ${o.no} jest potwierdzone. Twój kod odbioru to ${o.code.split('').join(' ')}. Pokaż kod QR w Paczkomacie Joker ${F.dayLabel(o.date, new Date()).replace(/ \(.*/, '')} o ${o.time}.`, chips: ['dziękuję', 'zamawiam jeszcze 5 półpalet na jutro na 10:00'] });
-  }, 1400);
+  box.innerHTML = `<div class="proc"><span class="spin"></span>${card ? 'Autoryzacja karty testowej…' : 'Potwierdź w aplikacji banku… (symulacja)'}</div>`;
+  await JK.sleep(1300);
+  const r = store.pay(id, card ? 'Karta testowa 4242' : 'BLIK (TEST)');
+  if (!r.ok) { JK.toast(r.reason, 'err'); refreshAll(); return; }
+  refreshAll();
+  const o = r.order;
+  await botSay({ say: `Płatność przyjęta. Zamówienie ${o.no} potwierdzone — bilet z kodem QR jest powyżej. Odbiór ${F.dayLabel(o.date, new Date()).replace(/ \(.*/, '')} w oknie ${F.pickupWindow(o.time)}, rampa 2.`, chips: ['Dziękuję', '5 półpalet jutro 10:00'] });
 }
-function refreshAll() { store.sweep(); Object.keys(cards).forEach(id => renderCard(id)); renderStock(); }
-setInterval(() => { store.sweep(); Object.keys(cards).forEach(id => { const o = store.order(id); if (!o) return; if (o.status !== cards[id].dataset.status) renderCard(id); else if (o.status === 'rezerwacja') tickCard(cards[id], o); }); renderStock(); }, 1000);
-window.addEventListener('storage', e => { if (e.key === F.KEY) { const was = {}; Object.keys(cards).forEach(id => was[id] = cards[id].dataset.status); refreshAll(); Object.keys(cards).forEach(id => { if (was[id] === 'akceptacja' && cards[id].dataset.status === 'rezerwacja') botSay({ say: 'Dobra wiadomość: człowiek zatwierdził Twoje duże zamówienie. Możesz je teraz opłacić — rezerwacja jest ważna 30 minut.' }); }); } });
-
+function refreshAll() { store.sweep(); Object.keys(cards).forEach(id => renderCard(id)); renderStock(); progress(); }
+setInterval(() => { store.sweep(); Object.keys(cards).forEach(id => { const o = store.order(id); if (!o) return; if (o.status !== cards[id].dataset.status) renderCard(id); else if (o.status === 'rezerwacja') tick(cards[id], o); }); renderStock(); }, 1000);
+window.addEventListener('storage', e => { if (e.key !== F.KEY) return; const was = {}; Object.keys(cards).forEach(id => was[id] = cards[id].dataset.status); refreshAll(); Object.keys(cards).forEach(id => { if (was[id] === 'akceptacja' && cards[id].dataset.status === 'rezerwacja') { current = id; botSay({ say: 'Dobra wiadomość: Twoje duże zamówienie zostało zatwierdzone. Możesz je opłacić — rezerwacja trwa 30 minut.' }); } }); });
+/* start */
 renderStock();
 const g = sess.start();
-botSay(g, true);
+bubble('a', BOT, JK.brand(g.say)); offer(); chips(QUICK); progress();
 const q = new URLSearchParams(location.search).get('q'); if (q) send(q);
+/* pokaz automatyczny */
+$('pkBtn').onclick = $('pkBtn2').onclick = () => { JK.sheen($('pkBtn2')); setTimeout(() => JK.pokaz.start(), 350); };
+async function pokaz() {
+  const P = JK.pokaz;
+  try {
+    const tomorrow = F.iso(new Date(Date.now() + 864e5));
+    if (store.available('epal', tomorrow) < 10) { store.reset(); renderStock(); }
+    P.step(1, 'Klient pisze albo mówi zwykłym zdaniem, czego potrzebuje.'); await P.wait(1600);
+    await P.type($('inp'), 'potrzebuję 10 palet euro na jutro na 9:00'); await P.wait(500);
+    await send($('inp').value);
+    const id = current, el = cards[id];
+    P.step(2, 'Bot sprawdza magazyn, podaje cenę i rezerwuje towar na 30 minut. Zegar odlicza czas.'); P.hl(el.querySelector('.res-grid')); await P.wait(4200);
+    P.step(3, 'Klient płaci BLIK-iem. To płatność testowa — nic nie jest pobierane.'); P.hl(el.querySelector('.pm-blik')); await P.wait(1200);
+    await P.type(el.querySelector('.blik input'), '777123'); await P.wait(600); P.hl(null);
+    await doPay(id, el, false); await P.wait(600);
+    P.step(4, 'Gotowe: elegancki bilet z numerem zamówienia, oknem odbioru i kodem QR.'); P.hl(cards[id].querySelector('.t-qr')); await P.wait(4600);
+    P.hl(null); location.href = F.qrPayload(store.order(id), '') ;
+  } catch (e) { if (e.message !== 'stop') console.error(e); }
+}
+if (JK.pokaz.on && /pokaz=1/.test(location.search)) { history.replaceState(null, '', location.pathname); setTimeout(pokaz, 700); }
+else if (JK.pokaz.on) JK.pokaz.stop(true);
 })();
 </script>
 </body>
